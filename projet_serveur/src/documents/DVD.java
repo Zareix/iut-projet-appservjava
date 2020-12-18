@@ -10,9 +10,11 @@ public class DVD implements Documents {
 	private int numero;
 	private String titre;
 	private boolean adulte;
-	
+
 	private Abonne abonne;
-	
+	private boolean isReserve = false;
+	private boolean isEmprunte = false;
+
 	public DVD(int num, String t, boolean a) {
 		this.numero = num;
 		this.titre = t;
@@ -25,36 +27,52 @@ public class DVD implements Documents {
 	}
 
 	@Override
-	public void reservationPour(Abonne ab) throws ReservationException {
-		if (adulte)
-			if(ab.getAge() < AGE_ADULTE) throw new ReservationException();
-		if(this.abonne != null)
-			throw new ReservationException();
-		
-		this.abonne = ab;
-		ab.addDocuments(this);
+	public void reservationPour(final Abonne ab) throws ReservationException {
+		synchronized (this) {
+			if (adulte)
+				if (ab.getAge() < AGE_ADULTE)
+					throw new ReservationException("Vous n'avez pas l'age requis pour réserver ce DVD");
+			if (this.isReserve)
+				throw new ReservationException("Ce document est déjà réservé");
+			if (this.isEmprunte)
+				throw new ReservationException("Ce document est déjà emprunté");
+			this.abonne = ab;
+			this.isReserve = true;
+			ab.addDocuments(this);
+		}
 	}
 
 	@Override
 	public void empruntPar(Abonne ab) throws EmpruntException {
-		if (adulte)
-			if(ab.getAge() < AGE_ADULTE) throw new EmpruntException();
-		if(this.abonne != null)
-			throw new EmpruntException();
-		
-		this.abonne = ab;
-		ab.addDocuments(this);
+		synchronized (this) {
+			if (adulte)
+				if (ab.getAge() < AGE_ADULTE)
+					throw new EmpruntException("Vous n'avez pas l'age requis pour emprunter ce DVD");
+			if (this.isReserve && ab != this.abonne)
+				throw new EmpruntException("Ce document est déjà réservé");
+			if (this.isEmprunte)
+				throw new EmpruntException("Ce document est déjà emprunté");
+			this.abonne = ab;
+			this.isEmprunte = true;
+			ab.addDocuments(this);
+		}
 	}
 
 	@Override
 	public void retour() {
-		if(this.abonne != null)
-			this.abonne.retirerDocuments(this);
+		synchronized (this) {
+			if (this.abonne != null) {
+				this.abonne.retirerDocuments(this);
+				this.abonne = null;
+				this.isReserve = false;
+				this.isEmprunte = false;
+			}
+		}
 	}
-	
+
 	@Override
 	public String toString() {
-		return "DVD : " + this.titre;
+		return "DVD : " + this.numero + " " + this.titre;
 	}
 
 }

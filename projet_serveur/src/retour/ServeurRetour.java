@@ -14,7 +14,7 @@ private ServerSocket socketServ;
 	@Override
 	public void run() {
 		try {
-			System.err.println("Lancement du serveur de réservation au port " + this.socketServ.getLocalPort());
+			System.err.println("Lancement du serveur de retour au port " + this.socketServ.getLocalPort());
 			while (true)
 				new Thread(new ServiceRetour(socketServ.accept())).start();
 		} catch (IOException e) {

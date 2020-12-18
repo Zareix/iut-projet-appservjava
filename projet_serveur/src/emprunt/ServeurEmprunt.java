@@ -14,7 +14,7 @@ public class ServeurEmprunt implements Runnable {
 	@Override
 	public void run() {
 		try {
-			System.err.println("Lancement du serveur de réservation au port " + this.socketServ.getLocalPort());
+			System.err.println("Lancement du serveur d'emprunt au port " + this.socketServ.getLocalPort());
 			while (true)
 				new Thread(new ServiceEmprunt(socketServ.accept())).start();
 		} catch (IOException e) {
