@@ -21,11 +21,11 @@ public class ApplicationClientMediatheque {
 		while (true) {
 			Scanner s = new Scanner(System.in);
 			String choix = s.nextLine();
-			if (choix.toUpperCase().equals("EMPRUNTER")) {
+			if (choix.equalsIgnoreCase("emprunter")) {
 				emprunter();
 				s.close();
 				break;
-			} else if (choix.toUpperCase().equals("RETOURNER")) {
+			} else if (choix.equalsIgnoreCase("retourner")) {
 				retour();
 				s.close();
 				break;
@@ -33,6 +33,7 @@ public class ApplicationClientMediatheque {
 				System.out.println(choix + " n'est pas un choix valide");
 			}
 		}
+		System.out.println("A bientot");
 	}
 
 	public static void emprunter() throws UnknownHostException, IOException {
@@ -68,11 +69,18 @@ public class ApplicationClientMediatheque {
 
 		// Emprunt d'un livre
 		while (true) {
-			socketOut.println(sc.nextLine());
+			String s = sc.nextLine();
+			socketOut.println(s);
+
+			if(s.equalsIgnoreCase("terminer"))
+				break;
 			
-			String s = socketIn.readLine();
-			System.out.println(s);
+			System.out.println(socketIn.readLine());
 		}
+		
+		sc.close();
+		socket.close();
+		System.out.println("Merci d'avoir utiliser le service d'emprunt");
 	}
 
 	public static void retour() {

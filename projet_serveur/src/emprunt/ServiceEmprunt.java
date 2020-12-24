@@ -54,21 +54,27 @@ public class ServiceEmprunt implements Runnable {
 			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste des documents disponibles");
 
 			for (Documents doc : documents) {
-				socketOut.println(doc);
+				socketOut.println("  - " + doc);
 			}
-			socketOut.println("Veuillez saisir le numéro du document que vous souhaitez emprunter\nTapez \"terminer\" pour mettre fin au service d'emprunt");
+			socketOut.println(
+					"Veuillez saisir le numéro du document que vous souhaitez emprunter\nTapez \"terminer\" pour mettre fin au service d'emprunt");
 			socketOut.println("finListe");
-			
-			while(true) {
+
+			while (true) {
 				String s = socketIn.readLine();
-				if(s.toUpperCase().equals("TERMINER"))
-					break;
+				if (s.toUpperCase().equals("TERMINER")) {
+					try {
+						client.close();
+					} catch (IOException e2) {
+					}
+					;
+				}
 				int numDoc = -1;
 				boolean docFound = false;
 				if (s.matches("-?\\d+")) {
 					numDoc = (int) Integer.valueOf(s);
 					for (Documents doc : documents) {
-						if(doc.numero() == numDoc) {
+						if (doc.numero() == numDoc) {
 							docFound = true;
 							try {
 								doc.empruntPar(ab);
@@ -78,7 +84,7 @@ public class ServiceEmprunt implements Runnable {
 							}
 						}
 					}
-					if(!docFound)
+					if (!docFound)
 						socketOut.println("Ce numéro de document n'existe pas");
 				} else {
 					socketOut.println("Merci de rentrer un numéro valide");
@@ -86,10 +92,13 @@ public class ServiceEmprunt implements Runnable {
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Fin service emprunt
 		}
 
+	}
+
+	protected void finalize() throws Throwable {
+		client.close();
 	}
 
 	public static void setAbonnes(List<Abonne> a) {
