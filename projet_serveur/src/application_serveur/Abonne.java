@@ -45,4 +45,8 @@ public class Abonne {
 		documents.remove(d);
 	}
 	
+	public List<Documents> getDocuments() {
+		return new ArrayList<>(documents);
+	}
+	
 }

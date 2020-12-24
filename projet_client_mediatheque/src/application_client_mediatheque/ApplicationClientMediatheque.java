@@ -43,9 +43,9 @@ public class ApplicationClientMediatheque {
 
 		BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
-		
+
 		Scanner sc = new Scanner(System.in);
-		
+
 		System.out.println(socketIn.readLine());
 
 		// Entrer le numéro d'abonné
@@ -72,18 +72,61 @@ public class ApplicationClientMediatheque {
 			String s = sc.nextLine();
 			socketOut.println(s);
 
-			if(s.equalsIgnoreCase("terminer"))
+			if (s.equalsIgnoreCase("terminer"))
 				break;
-			
+
 			System.out.println(socketIn.readLine());
 		}
-		
+
 		sc.close();
 		socket.close();
 		System.out.println("Merci d'avoir utiliser le service d'emprunt");
 	}
 
-	public static void retour() {
-		System.out.println("Vous avez choisi d'emprunter un documents.");
+	public static void retour() throws IOException {
+		System.out.println("Vous avez choisi de retourner un documents.");
+
+		Socket socket = new Socket(HOST, PORT_RETOUR);
+
+		BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println(socketIn.readLine());
+
+		// Entrer le numéro d'abonné
+		while (true) {
+			String s = socketIn.readLine();
+			System.out.println(s);
+
+			if (s.matches("([Bienvenue].*)"))
+				break;
+
+			socketOut.println(sc.nextLine());
+		}
+
+		// Affichage liste de docs possédés
+		while (true) {
+			String s = socketIn.readLine();
+			if (s.equals("finListe"))
+				break;
+			System.out.println(s);
+		}
+
+		// Retour d'un livre
+		while (true) {
+			String s = sc.nextLine();
+			socketOut.println(s);
+
+			if (s.equalsIgnoreCase("terminer"))
+				break;
+
+			System.out.println(socketIn.readLine());
+		}
+
+		sc.close();
+		socket.close();
+		System.out.println("Merci d'avoir utiliser le service d'emprunt");
 	}
 }

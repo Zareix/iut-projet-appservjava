@@ -51,7 +51,7 @@ public class ServiceEmprunt implements Runnable {
 					break;
 			}
 
-			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste des documents disponibles");
+			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste des documents disponibles :");
 
 			for (Documents doc : documents) {
 				socketOut.println("  - " + doc);
@@ -62,7 +62,7 @@ public class ServiceEmprunt implements Runnable {
 
 			while (true) {
 				String s = socketIn.readLine();
-				if (s.toUpperCase().equals("TERMINER")) {
+				if (s.equalsIgnoreCase("TERMINER")) {
 					try {
 						client.close();
 					} catch (IOException e2) {
