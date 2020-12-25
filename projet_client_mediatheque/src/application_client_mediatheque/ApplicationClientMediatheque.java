@@ -21,18 +21,18 @@ public class ApplicationClientMediatheque {
 		while (true) {
 			Scanner sc = new Scanner(System.in);
 			String choix = sc.nextLine();
-			if (choix.equalsIgnoreCase("emprunter")) {
+			if (choix.equalsIgnoreCase("emprunter") || choix.equalsIgnoreCase("emprunt")) {
 				// emprunter();
 				lancerService(PORT_EMPRUNT);
 				sc.close();
 				break;
-			} else if (choix.equalsIgnoreCase("retourner")) {
+			} else if (choix.equalsIgnoreCase("retourner") || choix.equalsIgnoreCase("retour")) {
 				// retour();
 				lancerService(PORT_RETOUR);
 				sc.close();
 				break;
 			} else {
-				System.out.println(choix + " n'est pas un choix valide");
+				System.out.println("\"" + choix + "\"" + " n'est pas un choix valide");
 			}
 			sc.close();
 		}

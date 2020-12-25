@@ -30,7 +30,7 @@ public class ServiceRetour implements Runnable {
 			socketOut.println("Bienvenue sur le service de retour.\nMerci de renseigner votre numéro de client");
 
 			Abonne ab = null;
-
+			// TODO : factoriser connexion
 			while (true) {
 				String s = socketIn.readLine();
 				int numAbo = -1;

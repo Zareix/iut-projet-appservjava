@@ -19,7 +19,11 @@ public class ServiceReservation implements Runnable {
 
 	@Override
 	public void run() {
+		// TODO : service réservation
+	}
 
+	protected void finalize() throws Throwable {
+		client.close();
 	}
 
 	public static void setAbonnes(List<Abonne> a) {
