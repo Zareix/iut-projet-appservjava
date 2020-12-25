@@ -22,11 +22,13 @@ public class ApplicationClientMediatheque {
 			Scanner s = new Scanner(System.in);
 			String choix = s.nextLine();
 			if (choix.equalsIgnoreCase("emprunter")) {
-				emprunter();
+				//emprunter();
+				lancerService(PORT_EMPRUNT);
 				s.close();
 				break;
 			} else if (choix.equalsIgnoreCase("retourner")) {
-				retour();
+				//retour();
+				lancerService(PORT_RETOUR);
 				s.close();
 				break;
 			} else {
@@ -36,57 +38,9 @@ public class ApplicationClientMediatheque {
 		System.out.println("A bientot");
 	}
 
-	public static void emprunter() throws UnknownHostException, IOException {
-		System.out.println("Vous avez choisi d'emprunter un documents.");
+	private static void lancerService(int port) throws UnknownHostException, IOException {
 
-		Socket socket = new Socket(HOST, PORT_EMPRUNT);
-
-		BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
-
-		Scanner sc = new Scanner(System.in);
-
-		System.out.println(socketIn.readLine());
-
-		// Entrer le numéro d'abonné
-		while (true) {
-			String s = socketIn.readLine();
-			System.out.println(s);
-
-			if (s.matches("([Bienvenue].*)"))
-				break;
-
-			socketOut.println(sc.nextLine());
-		}
-
-		// Affichage liste de docs dispo
-		while (true) {
-			String s = socketIn.readLine();
-			if (s.equals("finListe"))
-				break;
-			System.out.println(s);
-		}
-
-		// Emprunt d'un livre
-		while (true) {
-			String s = sc.nextLine();
-			socketOut.println(s);
-
-			if (s.equalsIgnoreCase("terminer"))
-				break;
-
-			System.out.println(socketIn.readLine());
-		}
-
-		sc.close();
-		socket.close();
-		System.out.println("Merci d'avoir utiliser le service d'emprunt");
-	}
-
-	public static void retour() throws IOException {
-		System.out.println("Vous avez choisi de retourner un documents.");
-
-		Socket socket = new Socket(HOST, PORT_RETOUR);
+		Socket socket = new Socket(HOST, port);
 
 		BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);

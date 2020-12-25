@@ -10,7 +10,6 @@ import java.util.List;
 
 import application_serveur.Abonne;
 import application_serveur.Documents;
-import exception.EmpruntException;
 
 public class ServiceRetour implements Runnable {
 	static List<Abonne> abonnes = new ArrayList<>();
