@@ -3,7 +3,6 @@ package emprunt;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-
 public class ServeurEmprunt implements Runnable {
 	private ServerSocket socketServ;
 

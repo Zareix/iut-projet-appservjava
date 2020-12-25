@@ -18,25 +18,23 @@ public class ApplicationServeur {
 	private final static int PORT_RESERVATION = 3000;
 	private final static int PORT_EMPRUNT = 4000;
 	private final static int PORT_RETOUR = 5000;
-	
+
 	public static void main(String[] args) throws IOException {
 		List<Abonne> abonnes = new ArrayList<>(initAbonnes());
 		List<Documents> documents = new ArrayList<>(initDocuments());
-		
+
 		ServiceEmprunt.setAbonnes(abonnes);
 		ServiceEmprunt.setDocuments(documents);
 		ServiceReservation.setAbonnes(abonnes);
 		ServiceReservation.setDocuments(documents);
 		ServiceRetour.setAbonnes(abonnes);
 		ServiceRetour.setDocuments(documents);
-		
-		
+
 		new Thread(new ServeurReservation(PORT_RESERVATION)).start();
 		new Thread(new ServeurEmprunt(PORT_EMPRUNT)).start();
 		new Thread(new ServeurRetour(PORT_RETOUR)).start();
 	}
 
-	
 	/*
 	 * Initialise la liste des abonnés
 	 */

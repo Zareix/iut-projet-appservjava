@@ -3,14 +3,13 @@ package retour;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-
 public class ServeurRetour implements Runnable {
-private ServerSocket socketServ;
-	
+	private ServerSocket socketServ;
+
 	public ServeurRetour(int port) throws IOException {
 		this.socketServ = new ServerSocket(port);
 	}
-	
+
 	@Override
 	public void run() {
 		try {
