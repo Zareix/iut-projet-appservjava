@@ -27,14 +27,17 @@ public class ServiceRetour implements Runnable {
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter socketOut = new PrintWriter(client.getOutputStream(), true);
 
-			socketOut.println("Bienvenue sur le service de retour.\nMerci de renseigner votre numéro de client");
+			socketOut.println("Connexion au service de retour.\nMerci de renseigner votre numéro de client");
 
 			Abonne ab = null;
 			// TODO : factoriser connexion
+			// Connexion
 			while (true) {
 				String s = socketIn.readLine();
 				int numAbo = -1;
-				if (s.matches("-?\\d+")) {
+				if (!s.matches("-?\\d+")) {
+					socketOut.println("Merci d'entrer un numéro valide");
+				} else {
 					numAbo = (int) Integer.valueOf(s);
 					for (Abonne abonne : abonnes) {
 						if (abonne.getId() == numAbo) {
@@ -42,15 +45,16 @@ public class ServiceRetour implements Runnable {
 							break;
 						}
 					}
+					if (ab == null)
+						socketOut.println("Ce numéro d'abonné n'est pas reconnu");
+					else
+						break;
 				}
-				if (ab == null)
-					socketOut.println("Ce numéro d'abonné n'est pas reconnu");
-				else
-					break;
 			}
 
 			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste de vos documents :");
 
+			// Affichage des docs de l'abo
 			List<Documents> docAbo = ab.getDocuments();
 			for (Documents doc : docAbo) {
 				socketOut.println("  - " + doc);
@@ -59,9 +63,11 @@ public class ServiceRetour implements Runnable {
 					"Veuillez saisir le numéro du document que vous souhaitez retourner\nTapez \"terminer\" pour mettre fin au service d'emprunt");
 			socketOut.println("finListe");
 
+			// Retour d'un document
 			while (true) {
 				String s = socketIn.readLine();
-				if (s.equalsIgnoreCase("TERMINER")) {
+				if (s.equalsIgnoreCase("terminer")) {
+					socketOut.println("Merci d'avoir utiliser le service de retour");
 					try {
 						client.close();
 					} catch (IOException e2) {
@@ -96,7 +102,6 @@ public class ServiceRetour implements Runnable {
 
 	public static void setAbonnes(List<Abonne> a) {
 		ServiceRetour.abonnes = a;
-
 	}
 
 	public static void setDocuments(List<Documents> d) {

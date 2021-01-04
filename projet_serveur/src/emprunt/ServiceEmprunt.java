@@ -28,14 +28,17 @@ public class ServiceEmprunt implements Runnable {
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter socketOut = new PrintWriter(client.getOutputStream(), true);
 
-			socketOut.println("Bienvenue sur le service d'emprunt.\nMerci de renseigner votre numéro de client");
+			socketOut.println("Connexion au service d'emprunt.\nMerci de renseigner votre numéro de client");
 
 			Abonne ab = null;
 
+			// Connexion
 			while (true) {
 				String s = socketIn.readLine();
 				int numAbo = -1;
-				if (s.matches("-?\\d+")) {
+				if (!s.matches("-?\\d+")) {
+					socketOut.println("Merci d'entrer un numéro valide");
+				} else {
 					numAbo = (int) Integer.valueOf(s);
 					for (Abonne abonne : abonnes) {
 						if (abonne.getId() == numAbo) {
@@ -43,26 +46,27 @@ public class ServiceEmprunt implements Runnable {
 							break;
 						}
 					}
+					if (ab == null)
+						socketOut.println("Ce numéro d'abonné n'est pas reconnu");
+					else
+						break;
 				}
-
-				if (ab == null)
-					socketOut.println("Ce numéro d'abonné n'est pas reconnu");
-				else
-					break;
 			}
 
 			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste des documents disponibles :");
 
+			// Affichage de tout les documents
 			for (Documents doc : documents) {
 				socketOut.println("  - " + doc);
 			}
 			socketOut.println(
 					"Veuillez saisir le numéro du document que vous souhaitez emprunter\nTapez \"terminer\" pour mettre fin au service d'emprunt");
-			socketOut.println("finListe");
 
+			// Emprunt d'un document
 			while (true) {
 				String s = socketIn.readLine();
 				if (s.equalsIgnoreCase("TERMINER")) {
+					socketOut.println("Merci d'avoir utiliser le service d'emprunt");
 					try {
 						client.close();
 					} catch (IOException e2) {

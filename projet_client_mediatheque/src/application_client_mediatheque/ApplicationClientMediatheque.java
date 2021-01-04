@@ -18,24 +18,22 @@ public class ApplicationClientMediatheque {
 		System.out.println("Bonjour, que souhaitez vous faire ?");
 		System.out.println("Emprunter ou retourner un document ?");
 
+		Scanner sc = new Scanner(System.in);
 		while (true) {
-			Scanner sc = new Scanner(System.in);
 			String choix = sc.nextLine();
 			if (choix.equalsIgnoreCase("emprunter") || choix.equalsIgnoreCase("emprunt")) {
-				// emprunter();
 				lancerService(PORT_EMPRUNT);
 				sc.close();
 				break;
 			} else if (choix.equalsIgnoreCase("retourner") || choix.equalsIgnoreCase("retour")) {
-				// retour();
 				lancerService(PORT_RETOUR);
 				sc.close();
 				break;
 			} else {
 				System.out.println("\"" + choix + "\"" + " n'est pas un choix valide");
 			}
-			sc.close();
 		}
+		sc.close();
 		System.out.println("A bientot");
 	}
 
@@ -62,11 +60,8 @@ public class ApplicationClientMediatheque {
 		}
 
 		// Affichage liste de docs
-		while (true) {
-			String s = socketIn.readLine();
-			if (s.equals("finListe"))
-				break;
-			System.out.println(s);
+		while (socketIn.ready()) {
+			System.out.println(socketIn.readLine());
 		}
 
 		// Retour/Emprunt d'un livre
@@ -74,14 +69,13 @@ public class ApplicationClientMediatheque {
 			String s = sc.nextLine();
 			socketOut.println(s);
 
+			System.out.println(socketIn.readLine());
+			
 			if (s.equalsIgnoreCase("terminer"))
 				break;
-
-			System.out.println(socketIn.readLine());
 		}
-
+		
 		sc.close();
 		socket.close();
-		System.out.println("Merci d'avoir utiliser le service d'emprunt");
 	}
 }
