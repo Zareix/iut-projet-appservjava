@@ -1,8 +1,11 @@
 package documents;
 
+import java.util.Timer;
+
 import application_serveur.Abonne;
 import application_serveur.Documents;
 import exception.ReservationException;
+import réservation.TimerReservation;
 import exception.EmpruntException;
 
 public class DVD implements Documents {
@@ -39,6 +42,8 @@ public class DVD implements Documents {
 			this.abonne = ab;
 			this.isReserve = true;
 			ab.addDocuments(this);
+			Timer t = new Timer();
+			t.schedule(new TimerReservation(this), 10000);
 		}
 	}
 

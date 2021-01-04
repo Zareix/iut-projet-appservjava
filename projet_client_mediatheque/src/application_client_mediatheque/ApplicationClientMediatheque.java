@@ -70,11 +70,11 @@ public class ApplicationClientMediatheque {
 			socketOut.println(s);
 
 			System.out.println(socketIn.readLine());
-			
+
 			if (s.equalsIgnoreCase("terminer"))
 				break;
 		}
-		
+
 		sc.close();
 		socket.close();
 	}
