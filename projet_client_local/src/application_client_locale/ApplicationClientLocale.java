@@ -36,9 +36,10 @@ public class ApplicationClientLocale {
 		// Affichage liste de docs
 		while (true) {
 			String s = socketIn.readLine();
-			if(s.matches("([finliste].*)"))
+			if (s.matches("([finliste].*)"))
 				break;
-			else System.out.println(s);
+			else
+				System.out.println(s);
 		}
 
 		// Réservation d'un livre

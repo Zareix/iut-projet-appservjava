@@ -62,9 +62,10 @@ public class ApplicationClientMediatheque {
 		// Affichage liste de docs
 		while (true) {
 			String s = socketIn.readLine();
-			if(s.matches("([finliste].*)"))
+			if (s.matches("([finliste].*)"))
 				break;
-			else System.out.println(s);
+			else
+				System.out.println(s);
 		}
 
 		// Retour/Emprunt d'un livre
