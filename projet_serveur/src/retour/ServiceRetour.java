@@ -61,7 +61,7 @@ public class ServiceRetour implements Runnable {
 			}
 			socketOut.println(
 					"Veuillez saisir le numéro du document que vous souhaitez retourner\nTapez \"terminer\" pour mettre fin au service d'emprunt");
-			socketOut.println("finListe");
+			socketOut.println("finliste");
 
 			// Retour d'un document
 			while (true) {
