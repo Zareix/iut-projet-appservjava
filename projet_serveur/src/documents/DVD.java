@@ -41,9 +41,9 @@ public class DVD implements Documents {
 					throw new ReservationException("Vous n'avez pas l'age requis pour réserver ce DVD");
 			if (this.isReserve) {
 				long minutes = ChronoUnit.MINUTES.between(LocalDateTime.now(), this.dateReserv.plusHours(2));
-				throw new ReservationException("Ce document est déjà réservé pendant encore : " + minutes + " minutes" );
+				throw new ReservationException("Ce document est déjà réservé pendant encore : " + minutes + " minutes");
 			}
-				
+
 			if (this.isEmprunte)
 				throw new ReservationException("Ce document est déjà emprunté");
 			this.abonne = ab;

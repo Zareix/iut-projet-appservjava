@@ -62,7 +62,7 @@ public class ServiceEmprunt implements Runnable {
 			socketOut.println(
 					"Veuillez saisir le numéro du document que vous souhaitez emprunter\nTapez \"terminer\" pour mettre fin au service d'emprunt");
 			socketOut.println("finliste");
-			
+
 			// Emprunt d'un document
 			while (true) {
 				String s = socketIn.readLine();
