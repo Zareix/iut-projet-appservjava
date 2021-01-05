@@ -11,6 +11,7 @@ import réservation.TimerReservation;
 import exception.EmpruntException;
 
 public class DVD implements Documents {
+	private static final long DUREE_RESERV = 2; //en heures
 	private static final int AGE_ADULTE = 16;
 	private int numero;
 	private String titre;
@@ -49,7 +50,7 @@ public class DVD implements Documents {
 			this.abonne = ab;
 			this.isReserve = true;
 			this.t = new Timer();
-			this.t.schedule(new TimerReservation(this), 7200000);
+			this.t.schedule(new TimerReservation(this), DUREE_RESERV*60*60*1000); // 2h
 			this.dateReserv = LocalDateTime.now();
 		}
 	}
