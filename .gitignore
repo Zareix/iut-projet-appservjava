@@ -1,4 +1,4 @@
 
 .project
 *.class
-projet_serveur/bin/documents/DVD.class
+projet_serveur/bin/documents/*
