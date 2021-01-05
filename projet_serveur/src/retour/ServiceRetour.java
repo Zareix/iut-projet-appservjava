@@ -68,11 +68,7 @@ public class ServiceRetour implements Runnable {
 				String s = socketIn.readLine();
 				if (s.equalsIgnoreCase("terminer")) {
 					socketOut.println("Merci d'avoir utiliser le service de retour");
-					try {
-						client.close();
-					} catch (IOException e2) {
-					}
-					;
+					client.close();
 				}
 				int numDoc = -1;
 				boolean docFound = false;

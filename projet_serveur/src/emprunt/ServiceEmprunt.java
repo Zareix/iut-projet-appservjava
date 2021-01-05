@@ -68,11 +68,7 @@ public class ServiceEmprunt implements Runnable {
 				String s = socketIn.readLine();
 				if (s.equalsIgnoreCase("TERMINER")) {
 					socketOut.println("Merci d'avoir utiliser le service d'emprunt");
-					try {
-						client.close();
-					} catch (IOException e2) {
-					}
-					;
+					client.close();
 				}
 				int numDoc = -1;
 				boolean docFound = false;

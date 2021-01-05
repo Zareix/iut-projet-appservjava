@@ -22,7 +22,7 @@ public class ApplicationClientLocale {
 
 		System.out.println(socketIn.readLine());
 
-		// Entrer le numéro d'abonné
+		// Connexion
 		while (true) {
 			String s = socketIn.readLine();
 			System.out.println(s);
@@ -55,5 +55,10 @@ public class ApplicationClientLocale {
 
 		sc.close();
 		socket.close();
+		try {
+			if (socket != null)
+				socket.close();
+		} catch (IOException e1) {
+		}
 	}
 }

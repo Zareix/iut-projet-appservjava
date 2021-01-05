@@ -14,20 +14,21 @@ public class ApplicationClientMediatheque {
 	private final static int PORT_EMPRUNT = 4000;
 	private final static int PORT_RETOUR = 5000;
 
+	// Après tests, il semblerait qu'avoir plusieurs scanner utilisant le system.in
+	// peut poser problème lorsqu'on en .close() l'un deux
+	private final static Scanner sc = new Scanner(System.in);
+
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		System.out.println("Bonjour, que souhaitez vous faire ?");
 		System.out.println("Emprunter ou retourner un document ?");
 
-		Scanner sc = new Scanner(System.in);
 		while (true) {
 			String choix = sc.nextLine();
 			if (choix.equalsIgnoreCase("emprunter") || choix.equalsIgnoreCase("emprunt")) {
 				lancerService(PORT_EMPRUNT);
-				sc.close();
 				break;
 			} else if (choix.equalsIgnoreCase("retourner") || choix.equalsIgnoreCase("retour")) {
 				lancerService(PORT_RETOUR);
-				sc.close();
 				break;
 			} else {
 				System.out.println("\"" + choix + "\"" + " n'est pas un choix valide");
@@ -44,11 +45,9 @@ public class ApplicationClientMediatheque {
 		BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
 
-		Scanner sc = new Scanner(System.in);
-
 		System.out.println(socketIn.readLine());
 
-		// Entrer le numéro d'abonné
+		// Connexion
 		while (true) {
 			String s = socketIn.readLine();
 			System.out.println(s);
@@ -79,7 +78,11 @@ public class ApplicationClientMediatheque {
 				break;
 		}
 
-		sc.close();
 		socket.close();
+		try {
+			if (socket != null)
+				socket.close();
+		} catch (IOException e1) {
+		}
 	}
 }
