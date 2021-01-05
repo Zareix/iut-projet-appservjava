@@ -32,6 +32,8 @@ public class DVD implements Documents {
 	@Override
 	public int numero() {
 		return this.numero;
+		
+		
 	}
 
 	@Override
