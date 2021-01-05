@@ -20,7 +20,7 @@ public class DVD implements Documents {
 	private Abonne abonne;
 	private boolean isEmprunte = false;
 	private boolean isReserve = false;
-	private Timer t;
+	private Timer t = new Timer();
 	private LocalDateTime dateReserv;
 
 	public DVD(int num, String t, boolean a) {
@@ -61,8 +61,10 @@ public class DVD implements Documents {
 			if (adulte)
 				if (ab.getAge() < AGE_ADULTE)
 					throw new EmpruntException("Vous n'avez pas l'age requis pour emprunter ce DVD");
-			if (this.isReserve && ab != this.abonne)
-				throw new EmpruntException("Ce document est déjà réservé");
+			if (this.isReserve && ab != this.abonne) {
+				long minutes = ChronoUnit.MINUTES.between(LocalDateTime.now(), this.dateReserv.plusHours(2));
+				throw new EmpruntException("Ce document est déjà réservé pendant encore : " + minutes + " minutes");
+			}
 			if (this.isEmprunte)
 				throw new EmpruntException("Ce document est déjà emprunté");
 			this.abonne = ab;
