@@ -56,13 +56,12 @@ public class ServiceReservation implements Runnable {
 			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste des documents :");
 
 			// Affichage des documents
-			List<Documents> docAbo = ab.getDocuments();
-			for (Documents doc : docAbo) {
+			for (Documents doc : documents) {
 				socketOut.println("  - " + doc);
 			}
 			socketOut.println(
 					"Veuillez saisir le numéro du document que vous souhaitez retourner\nTapez \"terminer\" pour mettre fin au service d'emprunt");
-			socketOut.println("finListe");
+			socketOut.println("finliste");
 
 			// Réservation d'un documents
 			while (true) {

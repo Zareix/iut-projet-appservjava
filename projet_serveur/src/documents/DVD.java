@@ -1,5 +1,7 @@
 package documents;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Timer;
 
 import application_serveur.Abonne;
@@ -15,8 +17,10 @@ public class DVD implements Documents {
 	private boolean adulte;
 
 	private Abonne abonne;
-	private boolean isReserve = false;
 	private boolean isEmprunte = false;
+	private boolean isReserve = false;
+	private Timer t;
+	private LocalDateTime dateReserv;
 
 	public DVD(int num, String t, boolean a) {
 		this.numero = num;
@@ -30,20 +34,23 @@ public class DVD implements Documents {
 	}
 
 	@Override
-	public void reservationPour(final Abonne ab) throws ReservationException {
+	public void reservationPour(Abonne ab) throws ReservationException {
 		synchronized (this) {
 			if (adulte)
 				if (ab.getAge() < AGE_ADULTE)
 					throw new ReservationException("Vous n'avez pas l'age requis pour réserver ce DVD");
-			if (this.isReserve)
-				throw new ReservationException("Ce document est déjà réservé");
+			if (this.isReserve) {
+				long minutes = ChronoUnit.MINUTES.between(LocalDateTime.now(), this.dateReserv.plusHours(2));
+				throw new ReservationException("Ce document est déjà réservé pendant encore : " + minutes + " minutes" );
+			}
+				
 			if (this.isEmprunte)
 				throw new ReservationException("Ce document est déjà emprunté");
 			this.abonne = ab;
 			this.isReserve = true;
-			ab.addDocuments(this);
-			Timer t = new Timer();
-			t.schedule(new TimerReservation(this), 10000);
+			this.t = new Timer();
+			this.t.schedule(new TimerReservation(this), 7200000);
+			this.dateReserv = LocalDateTime.now();
 		}
 	}
 
@@ -59,7 +66,10 @@ public class DVD implements Documents {
 				throw new EmpruntException("Ce document est déjà emprunté");
 			this.abonne = ab;
 			this.isEmprunte = true;
+			this.isReserve = false;
 			ab.addDocuments(this);
+			this.t.cancel();
+			this.dateReserv = null;
 		}
 	}
 
@@ -71,6 +81,8 @@ public class DVD implements Documents {
 				this.abonne = null;
 				this.isReserve = false;
 				this.isEmprunte = false;
+				this.t.cancel();
+				this.dateReserv = null;
 			}
 		}
 	}

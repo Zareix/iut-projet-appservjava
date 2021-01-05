@@ -10,14 +10,14 @@ public class Abonne {
 	private LocalDate dateNaissance;
 	private String nom;
 
-	private List<Documents> documents;
+	private List<Documents> docsEmpruntes;
 
 	public Abonne(int id, String n, LocalDate dateN) {
 		this.id = id;
-		this.dateNaissance = dateN;
 		this.nom = n;
+		this.dateNaissance = dateN;
 
-		this.documents = new ArrayList<>();
+		this.docsEmpruntes = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -33,15 +33,15 @@ public class Abonne {
 	}
 
 	public void addDocuments(Documents d) {
-		this.documents.add(d);
+		this.docsEmpruntes.add(d);
 	}
 
 	public void retirerDocuments(Documents d) {
-		documents.remove(d);
+		docsEmpruntes.remove(d);
 	}
 
 	public List<Documents> getDocuments() {
-		return new ArrayList<>(documents);
+		return new ArrayList<>(docsEmpruntes);
 	}
 
 }

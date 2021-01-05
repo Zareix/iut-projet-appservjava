@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class ApplicationClientLocale {
 	private final static String HOST = "localhost";
 	private final static int PORT_RESERVATION = 3000;
-	
+
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		Socket socket = new Socket(HOST, PORT_RESERVATION);
 
@@ -34,8 +34,11 @@ public class ApplicationClientLocale {
 		}
 
 		// Affichage liste de docs
-		while (socketIn.ready()) {
-			System.out.println(socketIn.readLine());
+		while (true) {
+			String s = socketIn.readLine();
+			if(s.matches("([finliste].*)"))
+				break;
+			else System.out.println(s);
 		}
 
 		// Réservation d'un livre
@@ -44,11 +47,11 @@ public class ApplicationClientLocale {
 			socketOut.println(s);
 
 			System.out.println(socketIn.readLine());
-			
+
 			if (s.equalsIgnoreCase("terminer"))
 				break;
 		}
-		
+
 		sc.close();
 		socket.close();
 	}
