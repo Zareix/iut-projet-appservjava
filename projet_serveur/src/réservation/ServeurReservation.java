@@ -3,6 +3,11 @@ package réservation;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * A la connexion d'un abonné : lance le service de réservation pour ce dernier
+ * 
+ * @see ServiceReservation
+ */
 public class ServeurReservation implements Runnable {
 	private ServerSocket socketServ;
 

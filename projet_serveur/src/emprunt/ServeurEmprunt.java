@@ -3,6 +3,11 @@ package emprunt;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * A la connexion d'un abonné : lance le service d'emprunt pour ce dernier
+ * 
+ * @see ServiceEmprunt
+ */
 public class ServeurEmprunt implements Runnable {
 	private ServerSocket socketServ;
 

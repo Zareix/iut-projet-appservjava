@@ -11,6 +11,9 @@ import java.util.List;
 import application_serveur.Abonne;
 import application_serveur.Documents;
 
+/**
+ * Gère le retour d'un document
+ */
 public class ServiceRetour implements Runnable {
 	static List<Abonne> abonnes = new ArrayList<>();
 	static List<Documents> documents = new ArrayList<>();
@@ -31,7 +34,7 @@ public class ServiceRetour implements Runnable {
 
 			Abonne ab = null;
 			// TODO : factoriser connexion
-			// Connexion
+			// Connexion de l'abonné avec son numéro
 			while (true) {
 				String s = socketIn.readLine();
 				int numAbo = -1;
@@ -96,10 +99,20 @@ public class ServiceRetour implements Runnable {
 		client.close();
 	}
 
+	/**
+	 * Initialise la liste des abonnés
+	 * 
+	 * @param a : liste d'abonnés
+	 */
 	public static void setAbonnes(List<Abonne> a) {
 		ServiceRetour.abonnes = a;
 	}
 
+	/**
+	 * Initialise la liste des documents
+	 * 
+	 * @param d : liste de documents
+	 */
 	public static void setDocuments(List<Documents> d) {
 		ServiceRetour.documents = d;
 	}

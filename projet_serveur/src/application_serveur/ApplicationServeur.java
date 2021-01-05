@@ -14,6 +14,13 @@ import retour.ServiceRetour;
 import réservation.ServeurReservation;
 import réservation.ServiceReservation;
 
+/**
+ * Initialise les abonnés et documents puis lance les serveurs
+ * 
+ * @see ServeurReservation
+ * @see ServeurEmprunt
+ * @see ServeurRetour
+ */
 public class ApplicationServeur {
 	private final static int PORT_RESERVATION = 3000;
 	private final static int PORT_EMPRUNT = 4000;
@@ -35,8 +42,10 @@ public class ApplicationServeur {
 		new Thread(new ServeurRetour(PORT_RETOUR)).start();
 	}
 
-	/*
-	 * Initialise la liste des abonnés
+	/**
+	 * Initialise et retourne la liste des abonnés
+	 * 
+	 * @return la liste des abonnés
 	 */
 	public static List<Abonne> initAbonnes() {
 		List<Abonne> abonnes = new ArrayList<>();
@@ -47,8 +56,10 @@ public class ApplicationServeur {
 		return abonnes;
 	}
 
-	/*
-	 * Initialise la liste des documents
+	/**
+	 * Initialise et retourne la liste des documents
+	 * 
+	 * @return la liste des documents
 	 */
 	private static List<Documents> initDocuments() {
 		List<Documents> documents = new ArrayList<>();

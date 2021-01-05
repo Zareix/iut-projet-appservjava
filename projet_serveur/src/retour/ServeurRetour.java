@@ -3,6 +3,11 @@ package retour;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * A la connexion d'un abonné : lance le service de retour pour ce dernier
+ * 
+ * @see ServiceRetour
+ */
 public class ServeurRetour implements Runnable {
 	private ServerSocket socketServ;
 

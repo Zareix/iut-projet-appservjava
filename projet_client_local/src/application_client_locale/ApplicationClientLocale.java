@@ -8,11 +8,17 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+/**
+ * Connecte l'abonné au service de réservation et permet à ce dernier de
+ * l'effectuer
+ */
 public class ApplicationClientLocale {
 	private final static String HOST = "localhost";
 	private final static int PORT_RESERVATION = 3000;
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
+		System.out.println("Connexion au service de réservation\n_________________\n");
+
 		Socket socket = new Socket(HOST, PORT_RESERVATION);
 
 		BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -33,7 +39,9 @@ public class ApplicationClientLocale {
 			socketOut.println(sc.nextLine());
 		}
 
-		// Affichage liste de docs
+		System.out.println("_________________\n");
+
+		// Affichage liste des documents
 		while (true) {
 			String s = socketIn.readLine();
 			if (s.matches("([finliste].*)"))
@@ -42,7 +50,7 @@ public class ApplicationClientLocale {
 				System.out.println(s);
 		}
 
-		// Réservation d'un livre
+		// Réservation d'un document
 		while (true) {
 			String s = sc.nextLine();
 			socketOut.println(s);

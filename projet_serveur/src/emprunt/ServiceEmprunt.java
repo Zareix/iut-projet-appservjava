@@ -12,6 +12,9 @@ import application_serveur.Abonne;
 import application_serveur.Documents;
 import exception.EmpruntException;
 
+/**
+ * Gère l'emprunt d'un document par un abonné
+ */
 public class ServiceEmprunt implements Runnable {
 	static List<Abonne> abonnes = new ArrayList<>();
 	static List<Documents> documents = new ArrayList<>();
@@ -28,11 +31,11 @@ public class ServiceEmprunt implements Runnable {
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter socketOut = new PrintWriter(client.getOutputStream(), true);
 
-			socketOut.println("Connexion au service d'emprunt.\nMerci de renseigner votre numéro de client");
+			socketOut.println("Connecté !\nMerci de renseigner votre numéro de client");
 
 			Abonne ab = null;
 
-			// Connexion
+			// Connexion de l'abonné avec son numéro
 			while (true) {
 				String s = socketIn.readLine();
 				int numAbo = -1;
@@ -102,11 +105,20 @@ public class ServiceEmprunt implements Runnable {
 		client.close();
 	}
 
+	/**
+	 * Initialise la liste des abonnés
+	 * 
+	 * @param a : liste d'abonnés
+	 */
 	public static void setAbonnes(List<Abonne> a) {
 		ServiceEmprunt.abonnes = a;
-
 	}
 
+	/**
+	 * Initialise la liste des documents
+	 * 
+	 * @param d : liste de documents
+	 */
 	public static void setDocuments(List<Documents> d) {
 		ServiceEmprunt.documents = d;
 	}

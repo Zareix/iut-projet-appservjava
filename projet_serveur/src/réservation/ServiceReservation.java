@@ -12,6 +12,9 @@ import application_serveur.Abonne;
 import application_serveur.Documents;
 import exception.ReservationException;
 
+/**
+ * Gère la réservation d'un document par un abonné
+ */
 public class ServiceReservation implements Runnable {
 	static List<Abonne> abonnes = new ArrayList<>();
 	static List<Documents> documents = new ArrayList<>();
@@ -28,11 +31,11 @@ public class ServiceReservation implements Runnable {
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter socketOut = new PrintWriter(client.getOutputStream(), true);
 
-			socketOut.println("Connexion au service de réservation.\nMerci de renseigner votre numéro de client");
+			socketOut.println("Connecté !\nMerci de renseigner votre numéro de client");
 
 			Abonne ab = null;
 			// TODO : factoriser connexion
-			// Connexion
+			// Connexion de l'abonné avec son numéro
 			while (true) {
 				String s = socketIn.readLine();
 				int numAbo = -1;
@@ -100,11 +103,20 @@ public class ServiceReservation implements Runnable {
 		client.close();
 	}
 
+	/**
+	 * Initialise la liste des abonnés
+	 * 
+	 * @param a : liste d'abonnés
+	 */
 	public static void setAbonnes(List<Abonne> a) {
 		ServiceReservation.abonnes = a;
-
 	}
 
+	/**
+	 * Initialise la liste des documents
+	 * 
+	 * @param d : liste de documents
+	 */
 	public static void setDocuments(List<Documents> d) {
 		ServiceReservation.documents = d;
 	}
