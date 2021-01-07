@@ -18,8 +18,9 @@ public class ApplicationClientMediatheque {
 	private final static int PORT_RETOUR = 5000;
 
 	/**
-	 * Note : Après tests, il semblerait qu'avoir plusieurs scanner utilisant le System.in
-	 * peut poser problème lorsqu'on .close() l'un d'eux, d'où l'attribut static.
+	 * Note : Après tests, il semblerait qu'avoir plusieurs scanner utilisant le
+	 * System.in peut poser problème lorsqu'on .close() l'un d'eux, d'où l'attribut
+	 * static.
 	 */
 	private final static Scanner sc = new Scanner(System.in);
 
@@ -31,11 +32,11 @@ public class ApplicationClientMediatheque {
 			String choix = sc.nextLine();
 			if (choix.equalsIgnoreCase("emprunter") || choix.equalsIgnoreCase("emprunt")) {
 				System.out.println("Connexion au service d'emprunt.");
-				lancerService(PORT_EMPRUNT);
+				lancerService(PORT_EMPRUNT, true);
 				break;
 			} else if (choix.equalsIgnoreCase("retourner") || choix.equalsIgnoreCase("retour")) {
 				System.out.println("Connexion au service de retour.");
-				lancerService(PORT_RETOUR);
+				lancerService(PORT_RETOUR, false);
 				break;
 			} else {
 				System.out.println("\"" + choix + "\"" + " n'est pas un choix valide");
@@ -53,7 +54,7 @@ public class ApplicationClientMediatheque {
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
-	private static void lancerService(int port) throws UnknownHostException, IOException {
+	private static void lancerService(int port, boolean needConnection) throws UnknownHostException, IOException {
 		System.out.println("_________________\n");
 
 		Socket socket = new Socket(HOST, port);
@@ -63,15 +64,17 @@ public class ApplicationClientMediatheque {
 
 		System.out.println(socketIn.readLine());
 
-		// Connexion
-		while (true) {
-			String s = socketIn.readLine();
-			System.out.println(s);
+		if (needConnection) {
+			// Connexion
+			while (true) {
+				String s = socketIn.readLine();
+				System.out.println(s);
 
-			if (s.matches("([Bienvenue].*)"))
-				break;
+				if (s.matches("([Bienvenue].*)"))
+					break;
 
-			socketOut.println(sc.nextLine());
+				socketOut.println(sc.nextLine());
+			}
 		}
 
 		System.out.println("_________________\n");

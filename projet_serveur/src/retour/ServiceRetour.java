@@ -30,36 +30,10 @@ public class ServiceRetour implements Runnable {
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter socketOut = new PrintWriter(client.getOutputStream(), true);
 
-			socketOut.println("Connexion au service de retour.\nMerci de renseigner votre numéro de client");
-
-			Abonne ab = null;
-			// TODO : factoriser connexion
-			// Connexion de l'abonné avec son numéro
-			while (true) {
-				String s = socketIn.readLine();
-				int numAbo = -1;
-				if (!s.matches("-?\\d+")) {
-					socketOut.println("Merci d'entrer un numéro valide");
-				} else {
-					numAbo = (int) Integer.valueOf(s);
-					for (Abonne abonne : abonnes) {
-						if (abonne.getId() == numAbo) {
-							ab = abonne;
-							break;
-						}
-					}
-					if (ab == null)
-						socketOut.println("Ce numéro d'abonné n'est pas reconnu");
-					else
-						break;
-				}
-			}
-
-			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste de vos documents :");
+			socketOut.println("Connecté au service de retour.");
 
 			// Affichage des docs de l'abo
-			List<Documents> docAbo = ab.getDocuments();
-			for (Documents doc : docAbo) {
+			for (Documents doc : documents) {
 				socketOut.println("  - " + doc);
 			}
 			socketOut.println(
@@ -77,7 +51,7 @@ public class ServiceRetour implements Runnable {
 				boolean docFound = false;
 				if (s.matches("-?\\d+")) {
 					numDoc = (int) Integer.valueOf(s);
-					for (Documents doc : docAbo) {
+					for (Documents doc : documents) {
 						if (doc.numero() == numDoc) {
 							docFound = true;
 							doc.retour();
