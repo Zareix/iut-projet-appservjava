@@ -67,8 +67,8 @@ public class DVD implements Documents {
 				if (this.abonne == ab)
 					throw new ReservationException("Vous réservé déjà ce DVD jusqu'à : " + this.dateFinReserv.getHour()
 							+ "h" + this.dateFinReserv.getMinute());
-				throw new ReservationException("Ce DVD est réservé par quelqu'un d'autre, jusqu'à : " + this.dateFinReserv.getHour() + "h"
-						+ this.dateFinReserv.getMinute());
+				throw new ReservationException("Ce DVD est réservé par quelqu'un d'autre, jusqu'à : "
+						+ this.dateFinReserv.getHour() + "h" + this.dateFinReserv.getMinute());
 			}
 			if (this.abonne != null)
 				throw new ReservationException("Ce DVD est déjà emprunté");
@@ -115,13 +115,13 @@ public class DVD implements Documents {
 			if (this.tReserv != null)
 				this.tReserv.cancel();
 			this.abonne = ab;
-			//ab.addDocuments(this);
+			// ab.addDocuments(this);
 			this.tEmprunt = new Timer();
 			this.tEmprunt.schedule(new TimerEmprunt(this.abonne), DUREE_EMPRUNT * 100 * 60 * 60 * 24 * 7);
 			this.dateFinReserv = null;
 		}
 	}
-	
+
 	/**
 	 * Permet le retour ou l'annulation de la réservation du DVD
 	 */
@@ -133,7 +133,7 @@ public class DVD implements Documents {
 					this.tReserv.cancel();
 				if (this.tEmprunt != null)
 					this.tEmprunt.cancel();
-				//this.abonne.retirerDocuments(this);
+				// this.abonne.retirerDocuments(this);
 				this.abonne = null;
 				this.dateFinReserv = null;
 			}
