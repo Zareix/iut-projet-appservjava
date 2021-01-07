@@ -1,6 +1,7 @@
 package documents;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Timer;
 
@@ -22,7 +23,7 @@ public class DVD implements Documents {
 
 	private Abonne abonne;
 
-	private LocalDateTime dateReserv;
+	private LocalDateTime dateFinReserv;
 	private Timer t = new Timer();
 
 	public DVD(int num, String t, boolean a) {
@@ -56,11 +57,10 @@ public class DVD implements Documents {
 			if (adulte)
 				if (ab.getAge() < AGE_ADULTE)
 					throw new ReservationException("Vous n'avez pas l'age requis pour réserver ce DVD");
-			if (this.dateReserv != null) {
+			if (this.dateFinReserv != null) {
 				if (this.abonne == ab)
 					throw new ReservationException("Vous réservé déjà ce DVD");
-				long minutes = ChronoUnit.MINUTES.between(LocalDateTime.now(), this.dateReserv.plusHours(2));
-				throw new ReservationException("Ce DVD est déjà réservé pendant encore : " + minutes + " minutes");
+				throw new ReservationException("Ce DVD est réservé jusqu'à : " + this.dateFinReserv.getHour() + "h" + this.dateFinReserv.getMinute());
 			}
 			if (this.abonne != null)
 				throw new ReservationException("Ce DVD est déjà emprunté");
@@ -68,7 +68,7 @@ public class DVD implements Documents {
 			this.abonne = ab;
 			this.t = new Timer();
 			this.t.schedule(new TimerReservation(this), DUREE_RESERV * 60 * 60 * 1000); // 2h
-			this.dateReserv = LocalDateTime.now();
+			this.dateFinReserv = LocalDateTime.now().plusHours(2);
 		}
 	}
 
@@ -85,10 +85,9 @@ public class DVD implements Documents {
 			if (adulte)
 				if (ab.getAge() < AGE_ADULTE)
 					throw new EmpruntException("Vous n'avez pas l'age requis pour emprunter ce DVD");
-			if (this.dateReserv != null && ab != this.abonne) {
-				long minutes = ChronoUnit.MINUTES.between(LocalDateTime.now(), this.dateReserv.plusHours(2));
-				throw new EmpruntException("Ce DVD est déjà réservé pendant encore : " + minutes + " minutes");
-			}
+			if (this.dateFinReserv != null && ab != this.abonne) {
+				throw new EmpruntException("Ce DVD est réservé jusqu'à : " + this.dateFinReserv.getHour() + "h" + this.dateFinReserv.getMinute());
+				}
 			if (this.abonne != null) {
 				if (this.abonne == ab)
 					throw new EmpruntException("Vous possédé déjà ce DVD.");
@@ -98,7 +97,7 @@ public class DVD implements Documents {
 			this.abonne = ab;
 			ab.addDocuments(this);
 			this.t.cancel();
-			this.dateReserv = null;
+			this.dateFinReserv = null;
 		}
 	}
 
@@ -111,7 +110,7 @@ public class DVD implements Documents {
 			if (this.abonne != null) {
 				this.abonne.retirerDocuments(this);
 				this.abonne = null;
-				this.dateReserv = null;
+				this.dateFinReserv = null;
 				this.t.cancel();
 			}
 		}
