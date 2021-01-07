@@ -73,7 +73,7 @@ public class DVD implements Documents {
 			if (this.abonne != null)
 				throw new ReservationException("Ce DVD est déjà emprunté");
 
-			// Aucun des précédents donc le doc est disponible à la réservation
+			// Aucun des précédents donc le DVD est disponible à la réservation
 			this.abonne = ab;
 			this.tReserv = new Timer();
 			this.tReserv.schedule(new TimerReservation(this), DUREE_RESERV * 60 * 60 * 1000); // conversion heures en ms
@@ -87,7 +87,7 @@ public class DVD implements Documents {
 	 * correspondant <br>
 	 * Si l'emprunt est effectué : lance un timer de {@value #DUREE_EMPRUNT}
 	 * semaine(s) au bout duquel l'abonné sera banni ({@link Abonne#bannir()}) s'il
-	 * n'a pas encore rendu le document
+	 * n'a pas encore rendu le DVD
 	 * 
 	 * @param ab : l'abonné qui emprunte
 	 */
@@ -111,7 +111,7 @@ public class DVD implements Documents {
 				throw new EmpruntException("Ce DVD est déjà emprunté.");
 			}
 
-			// Aucun des précédents donc le doc est disponible à l'emprunt
+			// Aucun des précédents donc le DVD est disponible à l'emprunt
 			if (this.tReserv != null)
 				this.tReserv.cancel();
 			this.abonne = ab;
@@ -126,7 +126,7 @@ public class DVD implements Documents {
 	 * Permet le retour ou l'annulation de la réservation du DVD
 	 */
 	@Override
-	public void retour() { // TODO : Doc dégradé
+	public void retour() { // TODO : DVD dégradé
 		synchronized (this) {
 			if (this.abonne != null) {
 				if (this.tReserv != null)
