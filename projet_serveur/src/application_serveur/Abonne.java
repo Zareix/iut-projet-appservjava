@@ -95,7 +95,7 @@ public class Abonne {
 	public void bannir() {
 		this.finBan = LocalDate.now().plusMonths(DUREE_BAN);
 		this.tDeban = new Timer();
-		tDeban.schedule(new TimerDeban(this), DUREE_BAN * 60 * 60 * 24 * 7 * 30);
+		tDeban.schedule(new TimerDeban(this), DUREE_BAN * 60 * 60 * 24 * 7 * 30); // TODO : move ?
 	}
 
 	/**

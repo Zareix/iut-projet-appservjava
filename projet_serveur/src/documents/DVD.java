@@ -121,12 +121,12 @@ public class DVD implements Documents {
 			this.dateFinReserv = null;
 		}
 	}
-
+	
 	/**
 	 * Permet le retour ou l'annulation de la réservation du DVD
 	 */
 	@Override
-	public void retour() {
+	public void retour() { // TODO : Doc dégradé
 		synchronized (this) {
 			if (this.abonne != null) {
 				if (this.tReserv != null)
