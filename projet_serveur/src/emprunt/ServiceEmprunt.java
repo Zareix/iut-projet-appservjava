@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application_serveur.Abonne;
-import application_serveur.Documents;
+import application_serveur.Document;
 import exception.EmpruntException;
 
 /**
@@ -17,7 +17,7 @@ import exception.EmpruntException;
  */
 public class ServiceEmprunt implements Runnable {
 	static List<Abonne> abonnes = new ArrayList<>();
-	static List<Documents> documents = new ArrayList<>();
+	static List<Document> documents = new ArrayList<>();
 
 	private Socket client;
 
@@ -59,7 +59,7 @@ public class ServiceEmprunt implements Runnable {
 			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste des documents disponibles :");
 
 			// Affichage de tout les documents
-			for (Documents doc : documents) {
+			for (Document doc : documents) {
 				socketOut.println("  - " + doc);
 			}
 			socketOut.println(
@@ -77,7 +77,7 @@ public class ServiceEmprunt implements Runnable {
 				boolean docFound = false;
 				if (s.matches("-?\\d+")) {
 					numDoc = (int) Integer.valueOf(s);
-					for (Documents doc : documents) {
+					for (Document doc : documents) {
 						if (doc.numero() == numDoc) {
 							docFound = true;
 							try {
@@ -119,7 +119,7 @@ public class ServiceEmprunt implements Runnable {
 	 * 
 	 * @param d : liste de documents
 	 */
-	public static void setDocuments(List<Documents> d) {
+	public static void setDocuments(List<Document> d) {
 		ServiceEmprunt.documents = d;
 	}
 

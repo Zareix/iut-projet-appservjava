@@ -3,7 +3,7 @@ package application_serveur;
 import exception.EmpruntException;
 import exception.ReservationException;
 
-public interface Documents {
+public interface Document {
 	int numero();
 
 	void reservationPour(Abonne ab) throws ReservationException;

@@ -2,7 +2,7 @@ package réservation;
 
 import java.util.TimerTask;
 
-import application_serveur.Documents;
+import application_serveur.Document;
 
 /**
  * Effectue le retour du document {@link #doc} si le lapse de temps est dépassé
@@ -10,9 +10,9 @@ import application_serveur.Documents;
  * @see TimerTask
  */
 public class TimerTaskReservation extends TimerTask {
-	Documents doc;
+	Document doc;
 
-	public TimerTaskReservation(Documents d) {
+	public TimerTaskReservation(Document d) {
 		this.doc = d;
 	}
 

@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application_serveur.Abonne;
-import application_serveur.Documents;
+import application_serveur.Document;
 
 /**
  * Gère le retour d'un document
  */
 public class ServiceRetour implements Runnable {
 	static List<Abonne> abonnes = new ArrayList<>();
-	static List<Documents> documents = new ArrayList<>();
+	static List<Document> documents = new ArrayList<>();
 
 	private Socket client;
 
@@ -33,7 +33,7 @@ public class ServiceRetour implements Runnable {
 			socketOut.println("Connecté au service de retour.");
 
 			// Affichage des docs de l'abo
-			for (Documents doc : documents) {
+			for (Document doc : documents) {
 				socketOut.println("  - " + doc);
 			}
 			socketOut.println(
@@ -51,7 +51,7 @@ public class ServiceRetour implements Runnable {
 				boolean docFound = false;
 				if (s.matches("-?\\d+")) {
 					numDoc = (int) Integer.valueOf(s);
-					for (Documents doc : documents) {
+					for (Document doc : documents) {
 						if (doc.numero() == numDoc) {
 							docFound = true;
 							doc.retour();
@@ -87,7 +87,7 @@ public class ServiceRetour implements Runnable {
 	 * 
 	 * @param d : liste de documents
 	 */
-	public static void setDocuments(List<Documents> d) {
+	public static void setDocuments(List<Document> d) {
 		ServiceRetour.documents = d;
 	}
 

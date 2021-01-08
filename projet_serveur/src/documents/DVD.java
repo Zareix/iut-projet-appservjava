@@ -5,16 +5,16 @@ import java.time.Month;
 import java.util.Timer;
 
 import application_serveur.Abonne;
-import application_serveur.Documents;
+import application_serveur.Document;
 import emprunt.TimerTaskEmprunt;
 import exception.ReservationException;
 import réservation.TimerTaskReservation;
 import exception.EmpruntException;
 
 /**
- * @see Documents
+ * @see Document
  */
-public class DVD implements Documents {
+public class DVD implements Document {
 	private static final long DUREE_RESERV = 2; // en heures
 	private static final long DUREE_EMPRUNT = 2; // en semaines
 	private static final int AGE_ADULTE = 16;

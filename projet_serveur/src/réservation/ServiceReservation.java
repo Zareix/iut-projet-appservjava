@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application_serveur.Abonne;
-import application_serveur.Documents;
+import application_serveur.Document;
 import exception.ReservationException;
 
 /**
@@ -17,7 +17,7 @@ import exception.ReservationException;
  */
 public class ServiceReservation implements Runnable {
 	static List<Abonne> abonnes = new ArrayList<>();
-	static List<Documents> documents = new ArrayList<>();
+	static List<Document> documents = new ArrayList<>();
 
 	private Socket client;
 
@@ -59,7 +59,7 @@ public class ServiceReservation implements Runnable {
 			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste des documents :");
 
 			// Affichage des documents
-			for (Documents doc : documents) {
+			for (Document doc : documents) {
 				socketOut.println("  - " + doc);
 			}
 			socketOut.println(
@@ -77,7 +77,7 @@ public class ServiceReservation implements Runnable {
 				boolean docFound = false;
 				if (s.matches("-?\\d+")) {
 					numDoc = (int) Integer.valueOf(s);
-					for (Documents doc : documents) {
+					for (Document doc : documents) {
 						if (doc.numero() == numDoc) {
 							docFound = true;
 							try {
@@ -117,7 +117,7 @@ public class ServiceReservation implements Runnable {
 	 * 
 	 * @param d : liste de documents
 	 */
-	public static void setDocuments(List<Documents> d) {
+	public static void setDocuments(List<Document> d) {
 		ServiceReservation.documents = d;
 	}
 

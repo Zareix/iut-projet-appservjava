@@ -28,7 +28,7 @@ public class ApplicationServeur {
 
 	public static void main(String[] args) throws IOException {
 		List<Abonne> abonnes = new ArrayList<>(initAbonnes());
-		List<Documents> documents = new ArrayList<>(initDocuments());
+		List<Document> documents = new ArrayList<>(initDocuments());
 
 		ServiceEmprunt.setAbonnes(abonnes);
 		ServiceEmprunt.setDocuments(documents);
@@ -61,8 +61,8 @@ public class ApplicationServeur {
 	 * 
 	 * @return la liste des documents
 	 */
-	private static List<Documents> initDocuments() {
-		List<Documents> documents = new ArrayList<>();
+	private static List<Document> initDocuments() {
+		List<Document> documents = new ArrayList<>();
 		documents.add(new DVD(501, "L'incroyable vie d'Amina", false));
 		documents.add(new DVD(502, "Les avm de Vincent", true));
 		documents.add(new DVD(503, "Les tricks de longboard de Raphaël", false));
