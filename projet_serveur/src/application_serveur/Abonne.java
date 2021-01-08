@@ -2,8 +2,6 @@ package application_serveur;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 
 /**
@@ -16,19 +14,13 @@ public class Abonne {
 	private LocalDate dateNaissance;
 	private String nom;
 
-	@Deprecated
-	private List<Documents> docsEmpruntes;
-
 	private LocalDate finBan;
-
 	private Timer tDeban;
 
 	public Abonne(int id, String n, LocalDate dateN) {
 		this.id = id;
 		this.nom = n;
 		this.dateNaissance = dateN;
-
-		this.docsEmpruntes = new ArrayList<>();
 	}
 
 	/**
@@ -59,43 +51,13 @@ public class Abonne {
 	}
 
 	/**
-	 * Ajoute un document à la liste {@link #docsEmpruntes}
-	 * 
-	 * @param d : le document
-	 */
-	@Deprecated
-	public void addDocuments(Documents d) {
-		this.docsEmpruntes.add(d);
-	}
-
-	/**
-	 * Retire un document de la liste {@link #docsEmpruntes}
-	 * 
-	 * @param d : le document
-	 */
-	@Deprecated
-	public void retirerDocuments(Documents d) {
-		docsEmpruntes.remove(d);
-	}
-
-	/**
-	 * Retourne une copie de la liste {@link #docsEmpruntes}
-	 * 
-	 * @return la liste des documents empruntés par l'abonné
-	 */
-	@Deprecated
-	public List<Documents> getDocuments() {
-		return new ArrayList<>(docsEmpruntes);
-	}
-
-	/**
 	 * Bannit l'abonné (l'empéchant d'effectuer des emprunts et réservation)
 	 * 
 	 */
 	public void bannir() {
 		this.finBan = LocalDate.now().plusMonths(DUREE_BAN);
 		this.tDeban = new Timer();
-		tDeban.schedule(new TimerDeban(this), DUREE_BAN * 60 * 60 * 24 * 7 * 30); // TODO : move ?
+		tDeban.schedule(new TimerTaskDeban(this), DUREE_BAN * 60 * 60 * 24 * 7 * 30);
 	}
 
 	/**
