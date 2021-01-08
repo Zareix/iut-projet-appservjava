@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class ApplicationClientMediatheque {
 	private final static String HOST = "localhost";
 
+	private final static int PORT_RESERV = 3000;
 	private final static int PORT_EMPRUNT = 4000;
 	private final static int PORT_RETOUR = 5000;
 
@@ -25,32 +26,37 @@ public class ApplicationClientMediatheque {
 	private final static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
-		System.out.println("Bonjour, que souhaitez vous faire ?");
-		System.out.println("Emprunter ou retourner un document ?");
+		System.out.println("Bonjour, bienvenue sur l'application de la médiathèque !");
 
 		while (true) {
+			System.out.println("Que souhaitez vous faire ?\nEmprunter, retourner ou reserver un document ? (Entrer [quitter] pour quitter l'app)");
 			String choix = sc.nextLine();
 			if (choix.equalsIgnoreCase("emprunter") || choix.equalsIgnoreCase("emprunt")) {
 				System.out.println("Connexion au service d'emprunt.");
 				lancerService(PORT_EMPRUNT, true);
-				break;
 			} else if (choix.equalsIgnoreCase("retourner") || choix.equalsIgnoreCase("retour")) {
 				System.out.println("Connexion au service de retour.");
 				lancerService(PORT_RETOUR, false);
+			} else if (choix.equalsIgnoreCase("reserver") || choix.equalsIgnoreCase("reservation")){
+				System.out.println("Connexion au service de réservation.");
+				lancerService(PORT_RESERV, true);
+			} else if (choix.equalsIgnoreCase("quitter")) {
 				break;
 			} else {
 				System.out.println("\"" + choix + "\"" + " n'est pas un choix valide");
 			}
 		}
 		sc.close();
+		System.out.println("_________________\n");
 		System.out.println("A bientot");
 	}
 
 	/**
-	 * Se connecte à un service (emprunt ou retour) pour le port choisi et
+	 * Se connecte à un service (emprunt, retour ou réservation) pour le port choisi et
 	 * communique avec celui-ci pour faire l'action demandée
 	 * 
 	 * @param port : le port auquel se connecte le socket
+	 * @param needConnection : true si l'abo doit se connecter
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
@@ -88,7 +94,7 @@ public class ApplicationClientMediatheque {
 				System.out.println(s);
 		}
 
-		// Retour/Emprunt d'un document
+		// Retour/Emprunt/Reservation d'un document
 		while (true) {
 			String s = sc.nextLine();
 			socketOut.println(s);
@@ -98,7 +104,7 @@ public class ApplicationClientMediatheque {
 			if (s.equalsIgnoreCase("terminer"))
 				break;
 		}
-
+		
 		System.out.println("_________________\n");
 
 		socket.close();
