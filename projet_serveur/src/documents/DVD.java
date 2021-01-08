@@ -118,7 +118,7 @@ public class DVD implements Documents {
 			this.abonne = ab;
 			// ab.addDocuments(this);
 			this.tEmprunt = new Timer();
-			this.tEmprunt.schedule(new TimerTaskEmprunt(this.abonne), DUREE_EMPRUNT * 100 * 60 * 60 * 24 * 7);
+			this.tEmprunt.schedule(new TimerTaskEmprunt(this.abonne), DUREE_EMPRUNT * 1000 * 60 * 60 * 24 * 7);
 			this.dateFinReserv = null;
 		}
 	}
