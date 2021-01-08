@@ -100,16 +100,14 @@ public class DVD implements Documents {
 			if (adulte)
 				if (ab.getAge() < AGE_ADULTE)
 					throw new EmpruntException("Vous n'avez pas l'age requis pour emprunter ce DVD");
-			if (this.dateFinReserv != null && ab != this.abonne) {
-				throw new EmpruntException("Ce DVD est réservé jusqu'à : " + this.dateFinReserv.getHour() + "h"
-						+ this.dateFinReserv.getMinute());
-			}
-			if (this.abonne != null) {
+			if (this.dateFinReserv != null) {
 				if (this.abonne != ab)
-					throw new EmpruntException("Ce DVD est réservé jusqu'à : " + this.dateFinReserv.getHour() + "h"
-							+ this.dateFinReserv.getMinute());
-				throw new EmpruntException("Ce DVD est déjà emprunté.");
+					throw new EmpruntException("Ce DVD est réservé par quelqu'un d'autre, jusqu'à : "
+							+ this.dateFinReserv.getHour() + "h" + this.dateFinReserv.getMinute());
 			}
+			if (this.abonne != null)
+				if (this.abonne != ab)
+					throw new EmpruntException("Ce DVD est déjà emprunté");
 
 			// Aucun des précédents donc le DVD est disponible à l'emprunt
 			if (this.tReserv != null)
@@ -134,6 +132,8 @@ public class DVD implements Documents {
 				if (this.tEmprunt != null)
 					this.tEmprunt.cancel();
 				// this.abonne.retirerDocuments(this);
+				if(this.dateFinReserv == null && this.abonne != null && Math.random()*100 < 10)
+					this.abonne.bannir();
 				this.abonne = null;
 				this.dateFinReserv = null;
 			}
