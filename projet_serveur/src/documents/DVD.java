@@ -6,9 +6,9 @@ import java.util.Timer;
 
 import application_serveur.Abonne;
 import application_serveur.Documents;
-import emprunt.TimerEmprunt;
+import emprunt.TimerTaskEmprunt;
 import exception.ReservationException;
-import réservation.TimerReservation;
+import réservation.TimerTaskReservation;
 import exception.EmpruntException;
 
 /**
@@ -76,7 +76,7 @@ public class DVD implements Documents {
 			// Aucun des précédents donc le DVD est disponible à la réservation
 			this.abonne = ab;
 			this.tReserv = new Timer();
-			this.tReserv.schedule(new TimerReservation(this), DUREE_RESERV * 60 * 60 * 1000); // conversion heures en ms
+			this.tReserv.schedule(new TimerTaskReservation(this), DUREE_RESERV * 60 * 60 * 1000); // conversion heures en ms
 			this.dateFinReserv = LocalDateTime.now().plusHours(2);
 		}
 	}
@@ -115,7 +115,7 @@ public class DVD implements Documents {
 			this.abonne = ab;
 			// ab.addDocuments(this);
 			this.tEmprunt = new Timer();
-			this.tEmprunt.schedule(new TimerEmprunt(this.abonne), DUREE_EMPRUNT * 100 * 60 * 60 * 24 * 7);
+			this.tEmprunt.schedule(new TimerTaskEmprunt(this.abonne), DUREE_EMPRUNT * 100 * 60 * 60 * 24 * 7);
 			this.dateFinReserv = null;
 		}
 	}
@@ -124,7 +124,7 @@ public class DVD implements Documents {
 	 * Permet le retour ou l'annulation de la réservation du DVD
 	 */
 	@Override
-	public void retour() { // TODO : DVD dégradé
+	public void retour() {
 		synchronized (this) {
 			if (this.abonne != null) {
 				if (this.tReserv != null)
