@@ -29,7 +29,8 @@ public class ApplicationClientMediatheque {
 		System.out.println("Bonjour, bienvenue sur l'application de la médiathèque !");
 
 		while (true) {
-			System.out.println("Que souhaitez vous faire ?\nEmprunter, retourner ou reserver un document ? (Entrer [quitter] pour quitter l'app)");
+			System.out.println(
+					"Que souhaitez vous faire ?\nEmprunter, retourner ou reserver un document ? (Entrer [quitter] pour quitter l'app)");
 			String choix = sc.nextLine();
 			if (choix.equalsIgnoreCase("emprunter") || choix.equalsIgnoreCase("emprunt")) {
 				System.out.println("Connexion au service d'emprunt.");
@@ -37,7 +38,7 @@ public class ApplicationClientMediatheque {
 			} else if (choix.equalsIgnoreCase("retourner") || choix.equalsIgnoreCase("retour")) {
 				System.out.println("Connexion au service de retour.");
 				lancerService(PORT_RETOUR, false);
-			} else if (choix.equalsIgnoreCase("reserver") || choix.equalsIgnoreCase("reservation")){
+			} else if (choix.equalsIgnoreCase("reserver") || choix.equalsIgnoreCase("reservation")) {
 				System.out.println("Connexion au service de réservation.");
 				lancerService(PORT_RESERV, true);
 			} else if (choix.equalsIgnoreCase("quitter")) {
@@ -52,10 +53,10 @@ public class ApplicationClientMediatheque {
 	}
 
 	/**
-	 * Se connecte à un service (emprunt, retour ou réservation) pour le port choisi et
-	 * communique avec celui-ci pour faire l'action demandée
+	 * Se connecte à un service (emprunt, retour ou réservation) pour le port choisi
+	 * et communique avec celui-ci pour faire l'action demandée
 	 * 
-	 * @param port : le port auquel se connecte le socket
+	 * @param port           : le port auquel se connecte le socket
 	 * @param needConnection : true si l'abo doit se connecter
 	 * @throws UnknownHostException
 	 * @throws IOException
@@ -104,7 +105,7 @@ public class ApplicationClientMediatheque {
 			if (s.equalsIgnoreCase("terminer"))
 				break;
 		}
-		
+
 		System.out.println("_________________\n");
 
 		socket.close();
