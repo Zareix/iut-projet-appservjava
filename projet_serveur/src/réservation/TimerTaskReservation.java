@@ -9,10 +9,10 @@ import application_serveur.Documents;
  * 
  * @see TimerTask
  */
-public class TimerReservation extends TimerTask {
+public class TimerTaskReservation extends TimerTask {
 	Documents doc;
 
-	public TimerReservation(Documents d) {
+	public TimerTaskReservation(Documents d) {
 		this.doc = d;
 	}
 

@@ -11,10 +11,10 @@ import application_serveur.Abonne;
  * @see TimerTask
  * @see Abonne
  */
-public class TimerEmprunt extends TimerTask {
+public class TimerTaskEmprunt extends TimerTask {
 	private Abonne abonne;
 
-	public TimerEmprunt(Abonne ab) {
+	public TimerTaskEmprunt(Abonne ab) {
 		this.abonne = ab;
 	}
 

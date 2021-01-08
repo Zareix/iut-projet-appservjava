@@ -8,10 +8,10 @@ import java.util.TimerTask;
  * @see TimerTask
  * @see Abonne
  */
-public class TimerDeban extends TimerTask {
+public class TimerTaskDeban extends TimerTask {
 	private Abonne abonne;
 
-	public TimerDeban(Abonne ab) {
+	public TimerTaskDeban(Abonne ab) {
 		this.abonne = ab;
 	}
 
