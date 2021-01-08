@@ -74,10 +74,9 @@ public class ServiceReservation implements Runnable {
 					socketOut.println("Merci d'avoir utiliser le service de réservation");
 					client.close();
 				}
-				int numDoc = -1;
 				boolean docFound = false;
 				if (s.matches("-?\\d+")) {
-					numDoc = (int) Integer.valueOf(s);
+					int numDoc = Integer.valueOf(s);
 					for (Document doc : documents) {
 						if (doc.numero() == numDoc) {
 							docFound = true;
