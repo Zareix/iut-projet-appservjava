@@ -79,8 +79,7 @@ public class DVD implements Document {
 			// Aucun des précédents donc le DVD est disponible à la réservation
 			this.abonne = ab;
 			this.tReserv = new Timer();
-			this.tReserv.schedule(new TimerTaskReservation(this), DUREE_RESERV * 60 * 60 * 1000); // conversion heures
-																									// en ms
+			this.tReserv.schedule(new TimerTaskReservation(this), DUREE_RESERV * 60 * 60 * 1000); // conversion h en ms
 			this.dateFinReserv = LocalDateTime.now().plusHours(2);
 		}
 	}
@@ -118,7 +117,6 @@ public class DVD implements Document {
 			if (this.tReserv != null)
 				this.tReserv.cancel();
 			this.abonne = ab;
-			// ab.addDocuments(this);
 			this.tEmprunt = new Timer();
 			this.tEmprunt.schedule(new TimerTaskEmprunt(this.abonne), DUREE_EMPRUNT * 1000 * 60 * 60 * 24 * 7);
 			this.dateFinReserv = null;
@@ -137,7 +135,6 @@ public class DVD implements Document {
 					this.tReserv.cancel();
 				if (this.tEmprunt != null)
 					this.tEmprunt.cancel();
-				// this.abonne.retirerDocuments(this);
 				if (this.dateFinReserv == null && this.abonne != null && Math.random() * 100 < RISQUE_DEGRADATION)
 					this.abonne.bannir();
 				this.abonne = null;
