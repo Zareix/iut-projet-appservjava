@@ -58,13 +58,14 @@ public class DVD implements Documents {
 	 */
 	@Override
 	public void reservationPour(Abonne ab) throws ReservationException {
+		if (ab.isBanni())
+			throw new ReservationException("Vous êtes interdit de réservation jusqu'au "
+					+ ab.getFinBan().getDayOfMonth() + " " + Month.of(ab.getFinBan().getMonthValue()));
+		if (adulte)
+			if (ab.getAge() < AGE_ADULTE)
+				throw new ReservationException("Vous n'avez pas l'âge requis pour réserver ce DVD");
+
 		synchronized (this) {
-			if (ab.isBanni())
-				throw new ReservationException("Vous êtes interdit de réservation jusqu'au "
-						+ ab.getFinBan().getDayOfMonth() + " " + Month.of(ab.getFinBan().getMonthValue()));
-			if (adulte)
-				if (ab.getAge() < AGE_ADULTE)
-					throw new ReservationException("Vous n'avez pas l'âge requis pour réserver ce DVD");
 			if (this.dateFinReserv != null) {
 				if (this.abonne == ab)
 					throw new ReservationException("Vous réservé déjà ce DVD jusqu'à : " + this.dateFinReserv.getHour()
@@ -96,13 +97,14 @@ public class DVD implements Documents {
 	 */
 	@Override
 	public void empruntPar(Abonne ab) throws EmpruntException {
+		if (ab.isBanni())
+			throw new EmpruntException("Vous êtes interdit d'emprunt jusqu'au " + ab.getFinBan().getDayOfMonth() + " "
+					+ Month.of(ab.getFinBan().getMonthValue()));
+		if (adulte)
+			if (ab.getAge() < AGE_ADULTE)
+				throw new EmpruntException("Vous n'avez pas l'age requis pour emprunter ce DVD");
+
 		synchronized (this) {
-			if (ab.isBanni())
-				throw new EmpruntException("Vous êtes interdit d'emprunt jusqu'au " + ab.getFinBan().getDayOfMonth()
-						+ " " + Month.of(ab.getFinBan().getMonthValue()));
-			if (adulte)
-				if (ab.getAge() < AGE_ADULTE)
-					throw new EmpruntException("Vous n'avez pas l'age requis pour emprunter ce DVD");
 			if (this.dateFinReserv != null) {
 				if (this.abonne != ab)
 					throw new EmpruntException("Ce DVD est réservé par quelqu'un d'autre, jusqu'à : "

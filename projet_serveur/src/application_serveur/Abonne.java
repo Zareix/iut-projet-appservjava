@@ -50,12 +50,11 @@ public class Abonne {
 		return nom;
 	}
 
-	//TODO : sync ?
 	/**
-	 * Bannit l'abonné (l'empéchant d'effectuer des emprunts et réservation)
-	 * 
+	 * Bannit l'abonné (l'empéchant d'effectuer des emprunts et réservation) <br>
+	 * Remarque : prolonge la durée du bannissement si l'abonné l'est déjà
 	 */
-	public void bannir() {
+	public synchronized void bannir() {
 		this.finBan = LocalDate.now().plusMonths(DUREE_BAN);
 		this.tDeban = new Timer();
 		tDeban.schedule(new TimerTaskDeban(this), DUREE_BAN * 1000 * 60 * 60 * 24 * 7 * 30);
@@ -65,7 +64,7 @@ public class Abonne {
 	 * Débannit l'abonné
 	 * 
 	 */
-	public void debannir() {
+	public synchronized void debannir() {
 		this.finBan = null;
 		if (this.tDeban != null)
 			this.tDeban.cancel();
@@ -76,7 +75,7 @@ public class Abonne {
 	 * 
 	 * @return l'état du bannissement
 	 */
-	public boolean isBanni() {
+	public synchronized boolean isBanni() {
 		return this.finBan != null;
 	}
 
