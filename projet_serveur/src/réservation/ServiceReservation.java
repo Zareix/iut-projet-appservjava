@@ -58,6 +58,7 @@ public class ServiceReservation implements Runnable {
 
 			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste des documents :");
 
+			// TODO : factoriser affichage
 			// Affichage des documents
 			for (Document doc : documents) {
 				socketOut.println("  - " + doc);
