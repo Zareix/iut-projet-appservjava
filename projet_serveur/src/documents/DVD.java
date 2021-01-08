@@ -18,6 +18,8 @@ public class DVD implements Documents {
 	private static final long DUREE_RESERV = 2; // en heures
 	private static final long DUREE_EMPRUNT = 2; // en semaines
 	private static final int AGE_ADULTE = 16;
+	private static final double RISQUE_DEGRADATION = 10; // % de risque de dégradation d'un doc au rendu
+
 	private int numero;
 	private String titre;
 	private boolean adulte;
@@ -76,7 +78,8 @@ public class DVD implements Documents {
 			// Aucun des précédents donc le DVD est disponible à la réservation
 			this.abonne = ab;
 			this.tReserv = new Timer();
-			this.tReserv.schedule(new TimerTaskReservation(this), DUREE_RESERV * 60 * 60 * 1000); // conversion heures en ms
+			this.tReserv.schedule(new TimerTaskReservation(this), DUREE_RESERV * 60 * 60 * 1000); // conversion heures
+																									// en ms
 			this.dateFinReserv = LocalDateTime.now().plusHours(2);
 		}
 	}
@@ -121,7 +124,8 @@ public class DVD implements Documents {
 	}
 
 	/**
-	 * Permet le retour ou l'annulation de la réservation du DVD
+	 * Permet le retour ou l'annulation de la réservation du DVD <br>
+	 * {@value #RISQUE_DEGRADATION}% de risque que le DVD soit rendu dégradé
 	 */
 	@Override
 	public void retour() {
@@ -132,7 +136,7 @@ public class DVD implements Documents {
 				if (this.tEmprunt != null)
 					this.tEmprunt.cancel();
 				// this.abonne.retirerDocuments(this);
-				if(this.dateFinReserv == null && this.abonne != null && Math.random()*100 < 10)
+				if (this.dateFinReserv == null && this.abonne != null && Math.random() * 100 < RISQUE_DEGRADATION)
 					this.abonne.bannir();
 				this.abonne = null;
 				this.dateFinReserv = null;
