@@ -60,7 +60,7 @@ public class DVD implements Document {
 					+ ab.getFinBan().getDayOfMonth() + " " + Month.of(ab.getFinBan().getMonthValue()));
 		if (adulte)
 			if (ab.getAge() < AGE_ADULTE)
-				throw new ReservationException("Vous n'avez pas l'âge requis pour réserver ce DVD");
+				throw new ReservationException("Vous n'avez pas l'âge requis pour réserver ce DVD.");
 
 		synchronized (this) {
 			if (this.dateFinReserv != null) {
@@ -73,9 +73,9 @@ public class DVD implements Document {
 			}
 			if (this.abonne != null) {
 				if (this.abonne == ab)
-					throw new ReservationException("Vous possédez déjà ce DVD");
+					throw new ReservationException("Vous possédez déjà ce DVD.");
 				else
-					throw new ReservationException("Ce DVD est déjà emprunté");
+					throw new ReservationException("Ce DVD est déjà emprunté.");
 			}
 
 			// Aucun des précédents donc le DVD est disponible à la réservation
@@ -103,7 +103,7 @@ public class DVD implements Document {
 					+ Month.of(ab.getFinBan().getMonthValue()));
 		if (adulte)
 			if (ab.getAge() < AGE_ADULTE)
-				throw new EmpruntException("Vous n'avez pas l'âge requis pour emprunter ce DVD");
+				throw new EmpruntException("Vous n'avez pas l'âge requis pour emprunter ce DVD.");
 
 		synchronized (this) {
 			if (this.abonne != null) {
@@ -111,9 +111,9 @@ public class DVD implements Document {
 					throw new EmpruntException("Ce DVD est réservé par quelqu'un d'autre, jusqu'à : "
 							+ this.dateFinReserv.getHour() + "h" + this.dateFinReserv.getMinute());
 				else if (this.abonne != ab)
-					throw new EmpruntException("Ce DVD est déjà emprunté");
+					throw new EmpruntException("Ce DVD est déjà emprunté.");
 				else if (this.dateFinReserv == null)
-					throw new EmpruntException("Vous possédez déjà ce DVD");
+					throw new EmpruntException("Vous possédez déjà ce DVD.");
 			}
 
 			// Aucun des précédents donc le DVD est disponible à l'emprunt
