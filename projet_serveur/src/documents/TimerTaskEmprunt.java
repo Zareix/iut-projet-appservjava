@@ -1,8 +1,8 @@
-package emprunt;
+package documents;
 
 import java.util.TimerTask;
 
-import application_serveur.Abonne;
+import Abonne.Abonne;
 
 /**
  * Effectue le bannissement de l'abonné si celui-ci met trop de temps à rendre
