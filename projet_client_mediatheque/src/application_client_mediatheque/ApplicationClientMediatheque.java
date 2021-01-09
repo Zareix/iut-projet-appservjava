@@ -94,7 +94,7 @@ public class ApplicationClientMediatheque {
 			else
 				System.out.println(s);
 		}
-		
+
 		System.out.println(socketIn.readLine());
 
 		// Retour/Emprunt/Reservation d'un document

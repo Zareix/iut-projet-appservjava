@@ -35,14 +35,14 @@ public class ServiceEmprunt implements Runnable {
 			socketOut.println("Connecté !\nMerci de renseigner votre numéro de client");
 
 			Abonne ab = ServiceTools.connexion(socketIn, socketOut, abonnes);
-					
+
 			socketOut.println("Bienvenue " + ab.getNom());
 
 			ServiceTools.affichageDocs(socketOut, documents);
 
 			socketOut.println(
 					"Veuillez saisir le numéro du document que vous souhaitez emprunter. Tapez \"terminer\" pour mettre fin au service d'emprunt");
-			
+
 			// Emprunt d'un document
 			while (true) {
 				String s = socketIn.readLine();
