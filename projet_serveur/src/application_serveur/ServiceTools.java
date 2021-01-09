@@ -17,15 +17,15 @@ public class ServiceTools {
 			throws IOException {
 		while (true) {
 			String s = socketIn.readLine();
-			if (!s.matches("-?\\d+")) {
-				socketOut.println("Merci d'entrer un numéro valide");
-			} else {
+			try {
 				int numAbo = Integer.valueOf(s);
 				for (Abonne abonne : abonnes) {
 					if (abonne.getId() == numAbo)
 						return abonne;
 				}
 				socketOut.println("Ce numéro d'abonné n'est pas reconnu");
+			} catch (NumberFormatException e) {
+				socketOut.println("Merci d'entrer un numéro valide");
 			}
 		}
 	}

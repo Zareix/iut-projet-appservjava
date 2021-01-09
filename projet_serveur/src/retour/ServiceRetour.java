@@ -46,8 +46,8 @@ public class ServiceRetour implements Runnable {
 					client.close();
 				}
 				boolean docFound = false;
-				if (s.matches("-?\\d+")) {
-					int numDoc = Integer.valueOf(s);
+				try {
+					int numDoc = Integer.parseInt(s);
 					for (Document doc : documents) {
 						if (doc.numero() == numDoc) {
 							docFound = true;
@@ -57,7 +57,7 @@ public class ServiceRetour implements Runnable {
 					}
 					if (!docFound)
 						socketOut.println("Ce numéro de document n'existe pas.");
-				} else {
+				} catch(NumberFormatException e) {
 					socketOut.println("Merci de rentrer un numéro valide.");
 				}
 			}
