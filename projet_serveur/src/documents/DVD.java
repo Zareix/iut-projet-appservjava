@@ -27,9 +27,8 @@ public class DVD implements Document {
 	private Abonne abonne;
 
 	private LocalDateTime dateFinReserv;
-	private Timer tReserv;
 
-	private Timer tEmprunt;
+	private Timer timer;
 
 	public DVD(int num, String t, boolean a) {
 		this.numero = num;
@@ -70,16 +69,21 @@ public class DVD implements Document {
 				if (this.abonne == ab)
 					throw new ReservationException("Vous réservé déjà ce DVD jusqu'à : " + this.dateFinReserv.getHour()
 							+ "h" + this.dateFinReserv.getMinute());
-				throw new ReservationException("Ce DVD est réservé par quelqu'un d'autre, jusqu'à : "
-						+ this.dateFinReserv.getHour() + "h" + this.dateFinReserv.getMinute());
+				else
+					throw new ReservationException("Ce DVD est réservé par quelqu'un d'autre, jusqu'à : "
+							+ this.dateFinReserv.getHour() + "h" + this.dateFinReserv.getMinute());
 			}
-			if (this.abonne != null)
-				throw new ReservationException("Ce DVD est déjà emprunté");
+			if (this.abonne != null) {
+				if (this.abonne == ab)
+					throw new ReservationException("Vous possédez déjà ce DVD");
+				else
+					throw new ReservationException("Ce DVD est déjà emprunté");
+			}
 
 			// Aucun des précédents donc le DVD est disponible à la réservation
 			this.abonne = ab;
-			this.tReserv = new Timer();
-			this.tReserv.schedule(new TimerTaskReservation(this), DUREE_RESERV * 60 * 60 * 1000); // conversion h en ms
+			this.timer = new Timer();
+			this.timer.schedule(new TimerTaskReservation(this), DUREE_RESERV * 60 * 60 * 1000); // conversion h en ms
 			this.dateFinReserv = LocalDateTime.now().plusHours(2);
 		}
 	}
@@ -104,21 +108,22 @@ public class DVD implements Document {
 				throw new EmpruntException("Vous n'avez pas l'age requis pour emprunter ce DVD");
 
 		synchronized (this) {
-			if (this.dateFinReserv != null) {
-				if (this.abonne != ab)
+			if (this.abonne != null) {
+				if (this.dateFinReserv != null && this.abonne != ab)
 					throw new EmpruntException("Ce DVD est réservé par quelqu'un d'autre, jusqu'à : "
 							+ this.dateFinReserv.getHour() + "h" + this.dateFinReserv.getMinute());
-			}
-			if (this.abonne != null)
-				if (this.abonne != ab)
+				else if (this.abonne != ab)
 					throw new EmpruntException("Ce DVD est déjà emprunté");
+				else if (this.dateFinReserv == null)
+					throw new EmpruntException("Vous possédez déjà ce DVD");
+			}
 
 			// Aucun des précédents donc le DVD est disponible à l'emprunt
-			if (this.tReserv != null)
-				this.tReserv.cancel();
+			if (this.timer != null)
+				this.timer.cancel();
 			this.abonne = ab;
-			this.tEmprunt = new Timer();
-			this.tEmprunt.schedule(new TimerTaskEmprunt(this.abonne), DUREE_EMPRUNT * 1000 * 60 * 60 * 24 * 7);
+			this.timer = new Timer();
+			this.timer.schedule(new TimerTaskEmprunt(this.abonne), DUREE_EMPRUNT * 1000 * 60 * 60 * 24 * 7);
 			this.dateFinReserv = null;
 		}
 	}
@@ -131,10 +136,8 @@ public class DVD implements Document {
 	public void retour() {
 		synchronized (this) {
 			if (this.abonne != null) {
-				if (this.tReserv != null)
-					this.tReserv.cancel();
-				if (this.tEmprunt != null)
-					this.tEmprunt.cancel();
+				if (this.timer != null)
+					this.timer.cancel();
 				if (this.dateFinReserv == null && this.abonne != null && Math.random() * 100 < RISQUE_DEGRADATION)
 					this.abonne.bannir();
 				this.abonne = null;
