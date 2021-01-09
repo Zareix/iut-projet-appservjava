@@ -15,7 +15,7 @@ import exception.EmpruntException;
 public class DVD implements Document {
 	private static final long DUREE_RESERV = 2; // en heures
 	private static final long DUREE_EMPRUNT = 2; // en semaines
-	private static final int AGE_ADULTE = 16;
+	private static final int AGE_ADULTE = 16; // âge minimum requis
 	private static final double RISQUE_DEGRADATION = 10; // % de risque de dégradation d'un doc au rendu
 
 	private int numero;

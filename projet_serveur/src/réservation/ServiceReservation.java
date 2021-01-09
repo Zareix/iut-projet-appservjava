@@ -66,7 +66,7 @@ public class ServiceReservation implements Runnable {
 					}
 					if (!docFound)
 						socketOut.println("Ce numéro de document n'existe pas.");
-				} catch(NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					socketOut.println("Merci de rentrer un numéro valide.");
 				}
 			}

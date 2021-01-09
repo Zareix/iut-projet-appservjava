@@ -30,7 +30,7 @@ public class ApplicationServeur {
 	public static void main(String[] args) throws IOException {
 		List<Abonne> abonnes = new ArrayList<>(initAbonnes());
 		List<Document> documents = new ArrayList<>(initDocuments());
-		
+
 		ServiceEmprunt.setAbonnes(abonnes);
 		ServiceEmprunt.setDocuments(documents);
 		ServiceReservation.setAbonnes(abonnes);
@@ -67,6 +67,8 @@ public class ApplicationServeur {
 		documents.add(new DVD(500, "L'incroyable vie d'Amina", false));
 		documents.add(new DVD(501, "Les avm de Vincent", true));
 		documents.add(new DVD(502, "Les tricks de longboard de Raphaël", false));
+		documents.add(new DVD(503, "La Belle et la Bête", false));
+		documents.add(new DVD(504, "Avengers : Endgame", true));
 		return documents;
 	}
 }
