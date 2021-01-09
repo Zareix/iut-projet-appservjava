@@ -103,7 +103,7 @@ public class DVD implements Document {
 					+ Month.of(ab.getFinBan().getMonthValue()));
 		if (adulte)
 			if (ab.getAge() < AGE_ADULTE)
-				throw new EmpruntException("Vous n'avez pas l'age requis pour emprunter ce DVD");
+				throw new EmpruntException("Vous n'avez pas l'âge requis pour emprunter ce DVD");
 
 		synchronized (this) {
 			if (this.abonne != null) {
