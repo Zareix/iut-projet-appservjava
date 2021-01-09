@@ -32,7 +32,7 @@ public class ServiceReservation implements Runnable {
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter socketOut = new PrintWriter(client.getOutputStream(), true);
 
-			socketOut.println("Connecté !\nMerci de renseigner votre numéro de client");
+			socketOut.println("Connecté !\nMerci de renseigner votre numéro de client.");
 
 			Abonne ab = ServiceTools.connexion(socketIn, socketOut, abonnes);
 
@@ -41,13 +41,13 @@ public class ServiceReservation implements Runnable {
 			ServiceTools.affichageDocs(socketOut, documents);
 
 			socketOut.println(
-					"Veuillez saisir le numéro du document que vous souhaitez réserver. Tapez \"terminer\" pour mettre fin au service de réservation");
+					"Veuillez saisir le numéro du document que vous souhaitez réserver. Tapez \"terminer\" pour mettre fin au service de réservation.");
 
 			// Réservation d'un documents
 			while (true) {
 				String s = socketIn.readLine();
 				if (s.equalsIgnoreCase("terminer")) {
-					socketOut.println("Merci d'avoir utiliser le service de réservation");
+					socketOut.println("Merci d'avoir utiliser le service de réservation.");
 					client.close();
 				}
 				boolean docFound = false;
@@ -65,13 +65,13 @@ public class ServiceReservation implements Runnable {
 						}
 					}
 					if (!docFound)
-						socketOut.println("Ce numéro de document n'existe pas");
+						socketOut.println("Ce numéro de document n'existe pas.");
 				} else {
-					socketOut.println("Merci de rentrer un numéro valide");
+					socketOut.println("Merci de rentrer un numéro valide.");
 				}
 			}
 		} catch (IOException e) {
-			// Fin service retour
+			// Fin service réservation
 		}
 	}
 

@@ -32,7 +32,7 @@ public class ServiceEmprunt implements Runnable {
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter socketOut = new PrintWriter(client.getOutputStream(), true);
 
-			socketOut.println("Connecté !\nMerci de renseigner votre numéro de client");
+			socketOut.println("Connecté !\nMerci de renseigner votre numéro de client.");
 
 			Abonne ab = ServiceTools.connexion(socketIn, socketOut, abonnes);
 
@@ -41,13 +41,13 @@ public class ServiceEmprunt implements Runnable {
 			ServiceTools.affichageDocs(socketOut, documents);
 
 			socketOut.println(
-					"Veuillez saisir le numéro du document que vous souhaitez emprunter. Tapez \"terminer\" pour mettre fin au service d'emprunt");
+					"Veuillez saisir le numéro du document que vous souhaitez emprunter. Tapez \"terminer\" pour mettre fin au service d'emprunt.");
 
 			// Emprunt d'un document
 			while (true) {
 				String s = socketIn.readLine();
 				if (s.equalsIgnoreCase("terminer")) {
-					socketOut.println("Merci d'avoir utiliser le service d'emprunt");
+					socketOut.println("Merci d'avoir utiliser le service d'emprunt.");
 					client.close();
 				}
 				boolean docFound = false;
@@ -65,9 +65,9 @@ public class ServiceEmprunt implements Runnable {
 						}
 					}
 					if (!docFound)
-						socketOut.println("Ce numéro de document n'existe pas");
+						socketOut.println("Ce numéro de document n'existe pas.");
 				} else {
-					socketOut.println("Merci de rentrer un numéro valide");
+					socketOut.println("Merci de rentrer un numéro valide.");
 				}
 			}
 

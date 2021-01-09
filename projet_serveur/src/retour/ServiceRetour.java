@@ -36,13 +36,13 @@ public class ServiceRetour implements Runnable {
 			ServiceTools.affichageDocs(socketOut, documents);
 
 			socketOut.println(
-					"Veuillez saisir le numéro du document que vous souhaitez retourner. Tapez \"terminer\" pour mettre fin au service de retour");
+					"Veuillez saisir le numéro du document que vous souhaitez retourner. Tapez \"terminer\" pour mettre fin au service de retour.");
 
 			// Retour d'un document
 			while (true) {
 				String s = socketIn.readLine();
 				if (s.equalsIgnoreCase("terminer")) {
-					socketOut.println("Merci d'avoir utiliser le service de retour");
+					socketOut.println("Merci d'avoir utiliser le service de retour.");
 					client.close();
 				}
 				boolean docFound = false;
@@ -56,9 +56,9 @@ public class ServiceRetour implements Runnable {
 						}
 					}
 					if (!docFound)
-						socketOut.println("Ce document n'existe pas");
+						socketOut.println("Ce numéro de document n'existe pas.");
 				} else {
-					socketOut.println("Merci de rentrer un numéro valide");
+					socketOut.println("Merci de rentrer un numéro valide.");
 				}
 			}
 		} catch (IOException e) {

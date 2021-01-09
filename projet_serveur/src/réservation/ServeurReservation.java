@@ -30,4 +30,11 @@ public class ServeurReservation implements Runnable {
 		}
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		try {
+			this.socketServ.close();
+		} catch (IOException e1) {
+		}
+	}
 }

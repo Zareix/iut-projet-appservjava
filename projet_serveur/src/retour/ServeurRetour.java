@@ -29,4 +29,12 @@ public class ServeurRetour implements Runnable {
 			System.err.println("Arrêt du serveur au port " + this.socketServ.getLocalPort());
 		}
 	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		try {
+			this.socketServ.close();
+		} catch (IOException e1) {
+		}
+	}
 }
