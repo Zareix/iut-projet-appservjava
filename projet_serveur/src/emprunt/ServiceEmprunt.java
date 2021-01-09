@@ -10,6 +10,7 @@ import java.util.List;
 
 import application_serveur.Abonne;
 import application_serveur.Document;
+import application_serveur.ServiceTools;
 import exception.EmpruntException;
 
 /**
@@ -33,50 +34,25 @@ public class ServiceEmprunt implements Runnable {
 
 			socketOut.println("Connecté !\nMerci de renseigner votre numéro de client");
 
-			Abonne ab = null;
+			Abonne ab = ServiceTools.connexion(socketIn, socketOut, abonnes);
+					
+			socketOut.println("Bienvenue " + ab.getNom());
 
-			// Connexion de l'abonné avec son numéro
-			while (true) {
-				String s = socketIn.readLine();
-				int numAbo = -1;
-				if (!s.matches("-?\\d+")) {
-					socketOut.println("Merci d'entrer un numéro valide");
-				} else {
-					numAbo = (int) Integer.valueOf(s);
-					for (Abonne abonne : abonnes) {
-						if (abonne.getId() == numAbo) {
-							ab = abonne;
-							break;
-						}
-					}
-					if (ab == null)
-						socketOut.println("Ce numéro d'abonné n'est pas reconnu");
-					else
-						break;
-				}
-			}
+			ServiceTools.affichageDocs(socketOut, documents);
 
-			socketOut.println("Bienvenue " + ab.getNom() + "\nVoici la liste des documents disponibles :");
-
-			// Affichage de tout les documents
-			for (Document doc : documents) {
-				socketOut.println("  - " + doc);
-			}
 			socketOut.println(
-					"Veuillez saisir le numéro du document que vous souhaitez emprunter\nTapez \"terminer\" pour mettre fin au service d'emprunt");
-			socketOut.println("finliste");
-
+					"Veuillez saisir le numéro du document que vous souhaitez emprunter. Tapez \"terminer\" pour mettre fin au service d'emprunt");
+			
 			// Emprunt d'un document
 			while (true) {
 				String s = socketIn.readLine();
-				if (s.equalsIgnoreCase("TERMINER")) {
+				if (s.equalsIgnoreCase("terminer")) {
 					socketOut.println("Merci d'avoir utiliser le service d'emprunt");
 					client.close();
 				}
-				int numDoc = -1;
 				boolean docFound = false;
 				if (s.matches("-?\\d+")) {
-					numDoc = (int) Integer.valueOf(s);
+					int numDoc = Integer.valueOf(s);
 					for (Document doc : documents) {
 						if (doc.numero() == numDoc) {
 							docFound = true;

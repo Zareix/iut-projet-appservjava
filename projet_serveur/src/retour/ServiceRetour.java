@@ -10,6 +10,7 @@ import java.util.List;
 
 import application_serveur.Abonne;
 import application_serveur.Document;
+import application_serveur.ServiceTools;
 
 /**
  * Gère le retour d'un document
@@ -32,13 +33,10 @@ public class ServiceRetour implements Runnable {
 
 			socketOut.println("Connecté au service de retour.");
 
-			// Affichage des docs de l'abo
-			for (Document doc : documents) {
-				socketOut.println("  - " + doc);
-			}
+			ServiceTools.affichageDocs(socketOut, documents);
+
 			socketOut.println(
-					"Veuillez saisir le numéro du document que vous souhaitez retourner\nTapez \"terminer\" pour mettre fin au service d'emprunt");
-			socketOut.println("finliste");
+					"Veuillez saisir le numéro du document que vous souhaitez retourner. Tapez \"terminer\" pour mettre fin au service de retour");
 
 			// Retour d'un document
 			while (true) {
@@ -47,10 +45,9 @@ public class ServiceRetour implements Runnable {
 					socketOut.println("Merci d'avoir utiliser le service de retour");
 					client.close();
 				}
-				int numDoc = -1;
 				boolean docFound = false;
 				if (s.matches("-?\\d+")) {
-					numDoc = (int) Integer.valueOf(s);
+					int numDoc = Integer.valueOf(s);
 					for (Document doc : documents) {
 						if (doc.numero() == numDoc) {
 							docFound = true;
@@ -59,7 +56,7 @@ public class ServiceRetour implements Runnable {
 						}
 					}
 					if (!docFound)
-						socketOut.println("Vous ne possédez pas ce documents");
+						socketOut.println("Ce document n'existe pas");
 				} else {
 					socketOut.println("Merci de rentrer un numéro valide");
 				}
