@@ -57,7 +57,7 @@ public class ApplicationClientMediatheque {
 	 * et communique avec celui-ci pour faire l'action demandée
 	 * 
 	 * @param port           : le port auquel se connecte le socket
-	 * @param needConnection : true si l'abo doit se connecter
+	 * @param needConnection : true si l'abo doit se connecter pour ce service
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
@@ -94,7 +94,7 @@ public class ApplicationClientMediatheque {
 			else
 				System.out.println(s);
 		}
-		
+
 		System.out.println(socketIn.readLine());
 
 		// Retour/Emprunt/Reservation d'un document
