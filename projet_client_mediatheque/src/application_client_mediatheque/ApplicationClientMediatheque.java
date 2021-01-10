@@ -30,7 +30,7 @@ public class ApplicationClientMediatheque {
 
 		while (true) {
 			System.out.println(
-					"Que souhaitez vous faire ?\nEmprunter, retourner ou reserver un document ? (Entrer \"quitter\" pour quitter l'app)");
+					"\nQue souhaitez vous faire ?\nEmprunter, reserver ou retourner un document ? (Entrer \"quitter\" pour quitter l'app)");
 			String choix = sc.nextLine();
 			if (choix.equalsIgnoreCase("emprunter") || choix.equalsIgnoreCase("emprunt")) {
 				System.out.println("Connexion au service d'emprunt.");
@@ -102,12 +102,13 @@ public class ApplicationClientMediatheque {
 			socketOut.println(s);
 
 			System.out.println(socketIn.readLine());
+			System.out.println("\nVeuillez saisir un autre numéro ou \"terminer\" pour mettre fin au service.");
 
 			if (s.equalsIgnoreCase("terminer"))
 				break;
 		}
 
-		System.out.println("_________________\n");
+		System.out.println("_________________");
 
 		socket.close();
 		try {
