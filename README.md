@@ -1,4 +1,4 @@
-# Projet Application Serveur Java (AppServeJava)
+# Projet Application Serveur Java (AppServJava)
 
 IUT de Paris – Rives de Seine (Descartes)
 
